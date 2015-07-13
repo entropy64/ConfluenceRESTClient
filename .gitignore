@@ -1,0 +1,17 @@
+# IntelliJ project files
+.idea/*
+vcs.xml
+workspace.xml
+*.iml
+out/
+gen/
+target/*
+
+### Java template
+*.class
+
+# Package Files #
+*.jar
+
+
+
