@@ -23,7 +23,7 @@ Content page = new Content();
 page.setType(Type.Page);
 page.setSpace( new Space("DEV"));
 page.setTitle("A page in DEV");                                      
-page.setBody(new Body(new Storage(Storage.Representation.STORAGE, content)));
+page.setBody(new Body(new Storage(content, Storage.Representation.STORAGE)));
 
 // post page to confluence.
 client.postContent(page);

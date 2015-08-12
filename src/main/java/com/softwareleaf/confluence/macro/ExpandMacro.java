@@ -9,23 +9,22 @@ package com.softwareleaf.confluence.macro;
  */
 public class ExpandMacro
 {
-
     /**
      * The title of the expandable.
      */
-    private String myTitle;
+    private final String myTitle;
     /**
      * The contents of the expandable.
      */
-    private String myBody;
+    private final String myBody;
 
     /**
      * @param builder the builder factory to use.
      */
-    protected ExpandMacro(Builder builder)
+    protected ExpandMacro(final Builder builder)
     {
-        this.myTitle = builder.myTitle;
-        this.myBody = builder.myBody;
+        myTitle = builder.myTitle;
+        myBody = builder.myBody;
     }
 
     /**
@@ -33,7 +32,7 @@ public class ExpandMacro
      */
     public String toMarkup()
     {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append("<ac:structured-macro ac:name=\"expand\">");
         sb.append("<ac:parameter ac:name=\"title\">");
         sb.append(myTitle);
@@ -65,15 +64,15 @@ public class ExpandMacro
         private String myTitle;
         private String myBody;
 
-        public Builder title(String title)
+        public Builder title(final String title)
         {
-            this.myTitle = title;
+            myTitle = title;
             return this;
         }
 
-        public Builder body(String body)
+        public Builder body(final String body)
         {
-            this.myBody = body;
+            myBody = body;
             return this;
         }
 
@@ -83,5 +82,4 @@ public class ExpandMacro
         }
 
     }
-
 }

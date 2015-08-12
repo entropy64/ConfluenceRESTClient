@@ -22,7 +22,7 @@ public class NoContent
         return statusCode;
     }
 
-    public void setStatusCode(int statusCode)
+    public void setStatusCode(final int statusCode)
     {
         this.statusCode = statusCode;
     }
@@ -32,7 +32,7 @@ public class NoContent
         return message;
     }
 
-    public void setMessage(String message)
+    public void setMessage(final String message)
     {
         this.message = message;
     }

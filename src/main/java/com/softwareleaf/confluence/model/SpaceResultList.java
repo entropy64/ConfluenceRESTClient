@@ -19,7 +19,7 @@ public class SpaceResultList
      *
      * @param spaces the array of {@code Space} instances.
      */
-    public SpaceResultList(Space[] spaces)
+    public SpaceResultList(final Space[] spaces)
     {
         this.spaces = spaces;
     }
@@ -31,7 +31,7 @@ public class SpaceResultList
         return spaces;
     }
 
-    public void setSpaces(Space[] spaces)
+    public void setSpaces(final Space[] spaces)
     {
         this.spaces = spaces;
     }

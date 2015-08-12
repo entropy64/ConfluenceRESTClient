@@ -37,7 +37,7 @@ public class Space
     /**
      * Constructor.
      */
-    public Space(String key)
+    public Space(final String key)
     {
         this.key = key;
     }
@@ -47,7 +47,7 @@ public class Space
         return key;
     }
 
-    public void setKey(String key)
+    public void setKey(final String key)
     {
         this.key = key;
     }
@@ -57,7 +57,7 @@ public class Space
         return name;
     }
 
-    public void setName(String name)
+    public void setName(final String name)
     {
         this.name = name;
     }
@@ -80,14 +80,23 @@ public class Space
     }
 
     @Override
-    public boolean equals(Object obj)
+    public boolean equals(final Object obj)
     {
-        if (obj == this) return true;
-        if (obj == null) return false;
-        if (!(obj instanceof Space)) return false;
-        Space that = (Space) obj;
-        return ((name == null) ? that.name == null : that.name.equals(this.name)) &&
-                ((key == null) ? that.key == null : that.key.equals(this.key));
+        if (obj == this)
+        {
+            return true;
+        }
+        if (obj == null)
+        {
+            return false;
+        }
+        if (!(obj instanceof Space))
+        {
+            return false;
+        }
+        final Space that = (Space) obj;
+        return (name == null ? that.name == null : that.name.equals(name)) &&
+                (key == null ? that.key == null : that.key.equals(key));
     }
 
 }

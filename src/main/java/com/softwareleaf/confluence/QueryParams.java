@@ -19,5 +19,4 @@ public interface QueryParams
      * <p> would expand the actual content stored in the page or blog post with the id 757575775.
      */
     String EXPAND_BODY_STORAGE = "?expand=body.storage";
-
 }

@@ -9,14 +9,12 @@ package com.softwareleaf.confluence.util;
  */
 public class Pair<U, V>
 {
-
     public final U p1;
     public final V p2;
 
-    public Pair( U p1, V p2 )
+    public Pair( final U p1, final V p2 )
     {
         this.p1 = p1;
         this.p2 = p2;
     }
-
 }

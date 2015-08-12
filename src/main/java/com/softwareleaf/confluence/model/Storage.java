@@ -23,7 +23,7 @@ public class Storage
      * <p>
      * NOTE: {@literal "storage"} should almost always be used.
      */
-    private String representation = "storage";
+    private Representation representation = Representation.STORAGE;
 
     /**
      * @see <a href="https://confluence.atlassian.com/display/DOC/Confluence+Storage+Format">
@@ -49,7 +49,7 @@ public class Storage
      * @param value          the markup of HTML.
      * @param representation the type of representation.
      */
-    public Storage(String value, String representation)
+    public Storage(final String value, final Representation representation)
     {
         this.value = value;
         this.representation = representation;
@@ -60,23 +60,23 @@ public class Storage
         return value;
     }
 
-    public void setValue(String value)
+    public void setValue(final String value)
     {
         this.value = value;
     }
 
-    public String getRepresentation()
+    public Representation getRepresentation()
     {
         return representation;
     }
 
-    public void setRepresentation(String representation)
+    public void setRepresentation(final Representation representation)
     {
         this.representation = representation;
     }
 
     @Override
-    public boolean equals(Object o)
+    public boolean equals(final Object o)
     {
         if (this == o)
         {
@@ -86,7 +86,7 @@ public class Storage
         {
             return false;
         }
-        Storage storage = (Storage) o;
+        final Storage storage = (Storage) o;
         return Objects.equals(value, storage.value) &&
                 Objects.equals(representation, storage.representation);
     }

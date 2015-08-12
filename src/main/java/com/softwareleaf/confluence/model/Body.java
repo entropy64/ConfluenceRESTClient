@@ -37,13 +37,13 @@ public class Body
      *
      * @param storage the instance of storage.
      */
-    public void setStorage(Storage storage)
+    public void setStorage(final Storage storage)
     {
         this.storage = storage;
     }
 
     @Override
-    public boolean equals(Object o)
+    public boolean equals(final Object o)
     {
         if (this == o)
         {
@@ -53,7 +53,7 @@ public class Body
         {
             return false;
         }
-        Body body = (Body) o;
+        final Body body = (Body) o;
         return Objects.equals(storage, body.storage);
     }
 

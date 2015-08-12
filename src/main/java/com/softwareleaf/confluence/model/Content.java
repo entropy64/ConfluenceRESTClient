@@ -1,8 +1,8 @@
 package com.softwareleaf.confluence.model;
 
-import com.google.gson.GsonBuilder;
-
 import java.util.Objects;
+
+import com.google.gson.GsonBuilder;
 
 /**
  * Represents a piece of content.
@@ -75,11 +75,11 @@ public class Content
      * @param title the title of the piece of content.
      * @param body  the body of the piece of content.
      */
-    public Content(String id,
-                   String type,
-                   Space space,
-                   String title,
-                   Body body)
+    public Content(final String id,
+                   final String type,
+                   final Space space,
+                   final String title,
+                   final Body body)
     {
         this.id = id;
         this.type = type;
@@ -95,7 +95,7 @@ public class Content
         return type;
     }
 
-    public void setType(Type type)
+    public void setType(final Type type)
     {
         this.type = type.toString();
     }
@@ -105,7 +105,7 @@ public class Content
         return ancestors;
     }
 
-    public void setAncestors(Parent[] ancestors)
+    public void setAncestors(final Parent[] ancestors)
     {
         this.ancestors = ancestors;
     }
@@ -115,7 +115,7 @@ public class Content
         return space;
     }
 
-    public void setSpace(Space space)
+    public void setSpace(final Space space)
     {
         this.space = space;
     }
@@ -125,7 +125,7 @@ public class Content
         return title;
     }
 
-    public void setTitle(String title)
+    public void setTitle(final String title)
     {
         this.title = title;
     }
@@ -135,7 +135,7 @@ public class Content
         return body;
     }
 
-    public void setBody(Body body)
+    public void setBody(final Body body)
     {
         this.body = body;
     }
@@ -145,7 +145,7 @@ public class Content
         return id;
     }
 
-    public void setId(String id)
+    public void setId(final String id)
     {
         this.id = id;
     }
@@ -156,10 +156,8 @@ public class Content
         return new GsonBuilder().disableHtmlEscaping().create().toJson(this);
     }
 
-    // equals and hashcode
-
     @Override
-    public boolean equals(Object o)
+    public boolean equals(final Object o)
     {
         if (this == o)
         {
@@ -169,7 +167,7 @@ public class Content
         {
             return false;
         }
-        Content content = (Content) o;
+        final Content content = (Content) o;
         return Objects.equals(id, content.id) &&
                 Objects.equals(type, content.type) &&
                 Objects.equals(ancestors, content.ancestors) &&
@@ -184,4 +182,3 @@ public class Content
         return Objects.hash(id, type, ancestors, space, title, body);
     }
 }
-
