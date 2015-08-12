@@ -1,14 +1,14 @@
 package com.softwareleaf.confluence.macro;
 
-import com.softwareleaf.confluence.ConfluenceClient;
-import com.softwareleaf.confluence.model.Storage;
-
 import java.net.URL;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import com.softwareleaf.confluence.ConfluenceClient;
+import com.softwareleaf.confluence.model.Storage;
 
 /**
  * A class for building the requisite markup for a JIRA Issues Macro.
@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
  */
 public class JiraIssuesMacro
 {
-
     /**
      * Parameters are options that you can set to control the content or format of the macro output.
      */
@@ -109,10 +108,10 @@ public class JiraIssuesMacro
          * @param string the String to convert.
          * @return a String in Camel Case format.
          */
-        private String convertToCamelCase(String string)
+        private static String convertToCamelCase(final String string)
         {
-            StringBuilder sb = new StringBuilder();
-            String[] parts = string.split("_");
+            final StringBuilder sb = new StringBuilder();
+            final String[] parts = string.split("_");
             sb.append(parts[0].toLowerCase());
             for (int i = 1; i <= parts.length - 1; i++)
             {
@@ -121,7 +120,7 @@ public class JiraIssuesMacro
             return sb.toString();
         }
 
-        private String toProperCase(String s)
+        private static String toProperCase(final String s)
         {
             return s.substring(0, 1).toUpperCase() +
                     s.substring(1).toLowerCase();
@@ -192,16 +191,16 @@ public class JiraIssuesMacro
     /**
      * Stores the parameters of this code block macro.
      */
-    private EnumMap<Parameters, String> parameters;
+    private final EnumMap<Parameters, String> parameters;
 
     /**
      * Constructor
      *
      * @param builder the builder factory used to build this {@code JiraIssuesMacro}
      */
-    protected JiraIssuesMacro(Builder builder)
+    protected JiraIssuesMacro(final Builder builder)
     {
-        this.parameters = builder.myParameters;
+        parameters = builder.myParameters;
     }
 
     /**
@@ -211,9 +210,9 @@ public class JiraIssuesMacro
      */
     public String toWikiMarkup()
     {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append("{jiraissues:");
-        for (Map.Entry<Parameters, String> entry : parameters.entrySet())
+        for (final Map.Entry<Parameters, String> entry : parameters.entrySet())
         {
             sb.append(entry.getKey().toString());
             sb.append("=");
@@ -235,7 +234,7 @@ public class JiraIssuesMacro
     public String toStorageRepresentation(ConfluenceClient client)
     {
         client = Objects.requireNonNull(client);
-        Storage wikiStorage = new Storage(toWikiMarkup(), Storage.Representation.WIKI.toString());
+        final Storage wikiStorage = new Storage(toWikiMarkup(), Storage.Representation.WIKI);
         return client.convertContent(wikiStorage, Storage.Representation.STORAGE).getValue();
     }
 
@@ -254,7 +253,7 @@ public class JiraIssuesMacro
      */
     public static class Builder
     {
-        private EnumMap<Parameters, String> myParameters;
+        private final EnumMap<Parameters, String> myParameters;
 
         // constructor
         private Builder()
@@ -279,9 +278,9 @@ public class JiraIssuesMacro
          * @return {@code this}.
          * @see JiraIssuesMacro.Columns
          */
-        public Builder columns(Columns[] columns)
+        public Builder columns(final Columns[] columns)
         {
-            String cols = Arrays.stream(columns)
+            final String cols = Arrays.stream(columns)
                     .map(Columns::toString).collect(Collectors.joining(","));
             myParameters.putIfAbsent(Parameters.COLUMNS, cols);
             return this;
@@ -292,7 +291,7 @@ public class JiraIssuesMacro
          * @return {@code this}.
          * @see Parameters#COUNT
          */
-        public Builder count(boolean count)
+        public Builder count(final boolean count)
         {
             myParameters.putIfAbsent(Parameters.COUNT, Boolean.toString(count));
             return this;
@@ -303,7 +302,7 @@ public class JiraIssuesMacro
          * @return {@code this}
          * @see JiraIssuesMacro.Parameters#CACHE
          */
-        public Builder cache(Cache cache)
+        public Builder cache(final Cache cache)
         {
             myParameters.putIfAbsent(Parameters.CACHE, cache.toString());
             return this;
@@ -315,7 +314,7 @@ public class JiraIssuesMacro
          * @param height the height value.
          * @return {@code this}
          */
-        public Builder height(int height)
+        public Builder height(final int height)
         {
             if (height >= 200)
             {
@@ -328,7 +327,7 @@ public class JiraIssuesMacro
          * @param renderMode the {@link JiraIssuesMacro.RenderMode} to set.
          * @return {@code this}
          */
-        public Builder renderMode(RenderMode renderMode)
+        public Builder renderMode(final RenderMode renderMode)
         {
             myParameters.putIfAbsent(Parameters.RENDER_MODE, renderMode.toString());
             return this;
@@ -343,7 +342,7 @@ public class JiraIssuesMacro
          * @param title the title to set.
          * @return {@code this}.
          */
-        public Builder title(String title)
+        public Builder title(final String title)
         {
             myParameters.putIfAbsent(Parameters.TITLE, title);
             return this;
@@ -355,7 +354,7 @@ public class JiraIssuesMacro
          * @param url the URL to set.
          * @return {@code this}.
          */
-        public Builder url(URL url)
+        public Builder url(final URL url)
         {
             myParameters.putIfAbsent(Parameters.URL, url.toString());
             return this;
@@ -367,7 +366,7 @@ public class JiraIssuesMacro
          * @param percentage a value must be greater or equal to {@code 500}.
          * @return {@code this}.
          */
-        public Builder width(int percentage)
+        public Builder width(final int percentage)
         {
             if (percentage >= 500)
             {
@@ -388,5 +387,4 @@ public class JiraIssuesMacro
         }
 
     }
-
 }

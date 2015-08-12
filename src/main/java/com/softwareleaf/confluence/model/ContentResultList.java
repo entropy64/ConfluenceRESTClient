@@ -19,19 +19,17 @@ public class ContentResultList
      *
      * @param contents the array of Content instances.
      */
-    public ContentResultList(Content[] contents)
+    public ContentResultList(final Content[] contents)
     {
         this.contents = contents;
     }
-
-    // getter and setter
 
     public Content[] getContents()
     {
         return contents;
     }
 
-    public void setContents(Content[] contents)
+    public void setContents(final Content[] contents)
     {
         this.contents = contents;
     }

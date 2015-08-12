@@ -33,7 +33,7 @@ public class Parent
      * @param id   the id of the parent.
      * @param type the type of the parent.
      */
-    public Parent(String id, String type)
+    public Parent(final String id, final String type)
     {
         this.id = id;
         this.type = type;
@@ -45,7 +45,7 @@ public class Parent
         return id;
     }
 
-    public void setId(String id)
+    public void setId(final String id)
     {
         this.id = id;
     }
@@ -55,13 +55,13 @@ public class Parent
         return type;
     }
 
-    public void setType(String type)
+    public void setType(final String type)
     {
         this.type = type;
     }
 
     @Override
-    public boolean equals(Object o)
+    public boolean equals(final Object o)
     {
         if (this == o)
         {
@@ -71,7 +71,7 @@ public class Parent
         {
             return false;
         }
-        Parent parent = (Parent) o;
+        final Parent parent = (Parent) o;
         return Objects.equals(id, parent.id) &&
                 Objects.equals(type, parent.type);
     }

@@ -1,17 +1,23 @@
 package com.softwareleaf.confluence;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.gson.GsonBuilder;
-import com.softwareleaf.confluence.model.*;
-import retrofit.Callback;
-import retrofit.RestAdapter;
-import retrofit.converter.GsonConverter;
-
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.converter.GsonConverter;
+
+import com.google.common.collect.ImmutableMap;
+import com.google.gson.GsonBuilder;
+import com.softwareleaf.confluence.model.Content;
+import com.softwareleaf.confluence.model.ContentResultList;
+import com.softwareleaf.confluence.model.NoContent;
+import com.softwareleaf.confluence.model.Space;
+import com.softwareleaf.confluence.model.Storage;
+import com.softwareleaf.confluence.model.Type;
 
 /**
  * A class that is capable of making requests to the confluence API.
@@ -49,19 +55,19 @@ public class ConfluenceClient
     /**
      * the Logger instance used by this class.
      */
-    private static final Logger theLogger = Logger.getLogger( ConfluenceClient.class.getName() );
+    private static final Logger theLogger = Logger.getLogger(ConfluenceClient.class.getName());
 
     /**
      * The ConfluenceAPI endpoint.
      */
-    private ConfluenceAPI myConfluenceAPI;
+    private final ConfluenceAPI myConfluenceAPI;
 
     /**
      * Constructor.
      */
-    private ConfluenceClient( Builder builder )
+    private ConfluenceClient(final Builder builder)
     {
-        this.myConfluenceAPI = builder.myConfluenceAPI;
+        myConfluenceAPI = builder.myConfluenceAPI;
     }
 
     /**
@@ -70,9 +76,9 @@ public class ConfluenceClient
      * @param id the id of the page or blog post to fetch.
      * @return the Content instance.
      */
-    public Content getContentById( String id )
+    public Content getContentById(final String id)
     {
-        return myConfluenceAPI.getContentById( id );
+        return myConfluenceAPI.getContentById(id);
     }
 
     /**
@@ -94,9 +100,9 @@ public class ConfluenceClient
      * @return an instance of {@code getContentResults} wrapping the list
      * of {@code Content} instances obtained from the API call.
      */
-    public ContentResultList getContentBySpaceKeyAndTitle( String key, String title )
+    public ContentResultList getContentBySpaceKeyAndTitle(final String key, final String title)
     {
-        return myConfluenceAPI.getContentBySpaceKeyAndTitle( key, title );
+        return myConfluenceAPI.getContentBySpaceKeyAndTitle(key, title);
     }
 
     /**
@@ -109,9 +115,9 @@ public class ConfluenceClient
      * @see <a href="https://confluence.atlassian.com/display/DOC/Confluence+Storage+Format">
      * Confluence Storage Format</a>
      */
-    public Storage convertContent( Storage storage, Storage.Representation convertTo )
+    public Storage convertContent(final Storage storage, final Storage.Representation convertTo)
     {
-        return myConfluenceAPI.postContentConverstion( storage, convertTo.toString() );
+        return myConfluenceAPI.postContentConverstion(storage, convertTo.toString());
     }
 
     /**
@@ -122,9 +128,9 @@ public class ConfluenceClient
      * @param callback this handle provides a means of inquiring about
      *                 the success or failure of the invocation.
      */
-    public void postContentWithCallback( Content content, Callback<Content> callback )
+    public void postContentWithCallback(final Content content, final Callback<Content> callback)
     {
-        myConfluenceAPI.postContentWithCallback( content, callback );
+        myConfluenceAPI.postContentWithCallback(content, callback);
     }
 
     /**
@@ -133,10 +139,9 @@ public class ConfluenceClient
      *
      * @param content the content to post to confluence.
      */
-    public Content postContent( Content content )
+    public Content postContent(final Content content)
     {
-        System.out.println( content.toString() );
-        return myConfluenceAPI.postContent( content );
+        return myConfluenceAPI.postContent(content);
     }
 
     /**
@@ -152,10 +157,10 @@ public class ConfluenceClient
      *
      * @param id the id of the page of blog post to be deleted.
      */
-    public void deleteContentById( String id )
+    public void deleteContentById(final String id)
     {
-        NoContent noContent = myConfluenceAPI.deleteContentById( id );
-        theLogger.fine( "Response: " + noContent );
+        final NoContent noContent = myConfluenceAPI.deleteContentById(id);
+        theLogger.fine("Response: " + noContent);
     }
 
     /**
@@ -165,8 +170,8 @@ public class ConfluenceClient
      */
     public List<Space> getSpaces()
     {
-        Space[] results = myConfluenceAPI.getSpaces().getSpaces();
-        return Arrays.stream( results ).collect( Collectors.toList() );
+        final Space[] results = myConfluenceAPI.getSpaces().getSpaces();
+        return Arrays.stream(results).collect(Collectors.toList());
     }
 
     /**
@@ -175,14 +180,14 @@ public class ConfluenceClient
      * @param spaceKey the key that identifies the target Space.
      * @return a list of all content in the given Space identified by {@param spaceKey}.
      */
-    public List<Content> getAllSpaceContent( String spaceKey )
+    public List<Content> getAllSpaceContent(final String spaceKey)
     {
-        Content[] results = myConfluenceAPI.getAllSpaceContent( spaceKey,
+        final Content[] results = myConfluenceAPI.getAllSpaceContent(spaceKey,
                 ImmutableMap.of(
                         "expand", "ancestors,body.storage",
-                        "limit", "1000" ) )
+                        "limit", "1000" ))
                 .getContents();
-        return Arrays.stream( results ).collect( Collectors.toList() );
+        return Arrays.stream(results).collect(Collectors.toList());
     }
 
     /**
@@ -192,12 +197,12 @@ public class ConfluenceClient
      * @param contentType the type of content to return.
      * @return a list of Content instances obtained from the root.
      */
-    public List<Content> getRootContentBySpaceKey( String spaceKey, Type contentType )
+    public List<Content> getRootContentBySpaceKey(final String spaceKey, final Type contentType)
     {
-        Content[] resultList = myConfluenceAPI
+        final Content[] resultList = myConfluenceAPI
                 .getRootContentBySpaceKey( spaceKey, contentType.toString() )
                 .getContents();
-        return Arrays.stream( resultList ).collect( Collectors.toList() );
+        return Arrays.stream(resultList).collect(Collectors.toList());
     }
 
     /**
@@ -244,9 +249,9 @@ public class ConfluenceClient
          * @param username the username.
          * @return {@code this}.
          */
-        public Builder username( String username )
+        public Builder username(final String username)
         {
-            this.myUsername = username;
+            myUsername = username;
             return this;
         }
 
@@ -256,9 +261,9 @@ public class ConfluenceClient
          * @param password the password matching the username.
          * @return {@code this}.
          */
-        public Builder password( String password )
+        public Builder password(final String password)
         {
-            this.myPassword = password;
+            myPassword = password;
             return this;
         }
 
@@ -269,9 +274,9 @@ public class ConfluenceClient
          * @param url the alternative Base url of the confluence instance to make requests to.
          * @return {@code this}.
          */
-        public Builder baseURL( String url )
+        public Builder baseURL(final String url)
         {
-            this.myAlternativeBaseURL = url;
+            myAlternativeBaseURL = url;
             return this;
         }
 
@@ -285,8 +290,8 @@ public class ConfluenceClient
             // determine if we are using the production confluence or not.
             final String URL = myAlternativeBaseURL == null ? THE_BASE_URL : myAlternativeBaseURL;
             // determine the user credentials to use.
-            String username = myUsername == null ? DEFAULT_USERNAME : myUsername;
-            String password = myPassword == null ? DEFAULT_PASSWORD : myPassword;
+            final String username = myUsername == null ? DEFAULT_USERNAME : myUsername;
+            final String password = myPassword == null ? DEFAULT_PASSWORD : myPassword;
             /*
              * The Confluence REST API requires HTTP Basic authentication using a
              * username and password pair, for a given Confluence user.
@@ -297,25 +302,23 @@ public class ConfluenceClient
             // encode in base64.
             final String encodedCredentials = "Basic " + Base64.getEncoder().encodeToString( credentials.getBytes() );
 
-            RestAdapter restAdapter = new RestAdapter.Builder()
-                    .setEndpoint( URL )
-                    .setConverter( new GsonConverter( new GsonBuilder().disableHtmlEscaping().create() ) )
-                    .setLogLevel( RestAdapter.LogLevel.FULL )
-                    .setLog( System.out::println )
+            final RestAdapter restAdapter = new RestAdapter.Builder()
+                    .setEndpoint(URL)
+                    .setConverter(new GsonConverter(new GsonBuilder().disableHtmlEscaping().create()))
+                    .setLogLevel(RestAdapter.LogLevel.FULL)
+                    .setLog(System.out::println)
                     .setRequestInterceptor(
                             request -> {
-                                request.addHeader( "Accept", "application/json" );
-                                request.addHeader( "Authorization", encodedCredentials );
+                                request.addHeader("Accept", "application/json");
+                                request.addHeader("Authorization", encodedCredentials);
                             }
                     )
                     .build();
 
             // Create an implementation of the API defined by the specified ConfluenceAPI interface
-            this.myConfluenceAPI = restAdapter.create( ConfluenceAPI.class );
+            myConfluenceAPI = restAdapter.create(ConfluenceAPI.class);
 
-            return new ConfluenceClient( this );
+            return new ConfluenceClient(this);
         }
-
     }
-
 }

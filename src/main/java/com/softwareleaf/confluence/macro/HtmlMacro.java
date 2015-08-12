@@ -20,7 +20,7 @@ public class HtmlMacro
      * @param content the HTML source.
      *                NOTE: This cannot contain a {@literal <DOCTYPE html>} tag.
      */
-    public HtmlMacro(String content)
+    public HtmlMacro(final String content)
     {
         this.content = content;
     }
@@ -41,5 +41,4 @@ public class HtmlMacro
 
         return sb.toString();
     }
-
 }

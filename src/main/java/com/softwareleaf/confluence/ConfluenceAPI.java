@@ -1,11 +1,21 @@
 package com.softwareleaf.confluence;
 
-import com.softwareleaf.confluence.model.*;
-import retrofit.Callback;
-import retrofit.http.*;
-import retrofit.http.Body;
-
 import java.util.Map;
+
+import retrofit.Callback;
+import retrofit.http.Body;
+import retrofit.http.DELETE;
+import retrofit.http.GET;
+import retrofit.http.POST;
+import retrofit.http.Path;
+import retrofit.http.Query;
+import retrofit.http.QueryMap;
+
+import com.softwareleaf.confluence.model.Content;
+import com.softwareleaf.confluence.model.ContentResultList;
+import com.softwareleaf.confluence.model.NoContent;
+import com.softwareleaf.confluence.model.SpaceResultList;
+import com.softwareleaf.confluence.model.Storage;
 
 /**
  * Specifies the API paths that are so far supported with this confluence client.
@@ -15,7 +25,6 @@ import java.util.Map;
  */
 public interface ConfluenceAPI
 {
-
     /**
      * Fetch a results object containing a paginated list of content.
      *
@@ -34,7 +43,8 @@ public interface ConfluenceAPI
      * of {@code Content} instances obtained from the API call.
      */
     @GET("/rest/api/content")
-    ContentResultList getContentBySpaceKeyAndTitle(@Query("key") String key, @Query("title") String title);
+    ContentResultList getContentBySpaceKeyAndTitle(@Query("key") String key, 
+                                                   @Query("title") String title);
 
     /**
      * GET Content
@@ -108,7 +118,8 @@ public interface ConfluenceAPI
      * @return a list of all content in the given Space identified by {@param spaceKey}.
      */
     @GET("/rest/api/space/{spaceKey}/content/page")
-    ContentResultList getAllSpaceContent(@Path("spaceKey") String spaceKey, @QueryMap Map<String, String> params);
+    ContentResultList getAllSpaceContent(@Path("spaceKey") String spaceKey, 
+                                         @QueryMap Map<String, String> params);
 
     /**
      * Obtain paginated results of root content available from a given space.
@@ -118,6 +129,6 @@ public interface ConfluenceAPI
      * @return a wrapper model around the {@link ContentResultList} resulting from this call.
      */
     @GET("/rest/api/space/{spaceKey}/content/{type}")
-    ContentResultList getRootContentBySpaceKey(@Path("spaceKey") String spaceKey, @Path("type") String contentType);
-
+    ContentResultList getRootContentBySpaceKey(@Path("spaceKey") String spaceKey, 
+                                               @Path("type") String contentType);
 }

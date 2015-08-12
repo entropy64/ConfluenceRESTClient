@@ -1,6 +1,11 @@
 package com.softwareleaf.confluence.util;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * A generic recursive, immutable Tree structure, used to implement a
@@ -12,11 +17,10 @@ import java.util.*;
  */
 public class Tree<E>
 {
-
     /**
      * The element stored in this Tree.
      */
-    private E myElement;
+    private final E myElement;
     /**
      * The child elements of this node.
      */
@@ -32,7 +36,7 @@ public class Tree<E>
      * @param element  the element stored in this {@code Tree}
      * @param children the child nodes of this {@code Tree}
      */
-    public Tree( E element, List<Tree<E>> children )
+    public Tree( final E element, final List<Tree<E>> children )
     {
         myVisited = false;
         myElement = element;
@@ -44,7 +48,7 @@ public class Tree<E>
      *
      * @param treeBuilder the {@code TreeBuilder} instance to use.
      */
-    protected Tree( TreeBuilder<E> treeBuilder )
+    protected Tree( final TreeBuilder<E> treeBuilder )
     {
         myVisited = false;
         myElement = treeBuilder.myRootElement;
@@ -55,7 +59,7 @@ public class Tree<E>
         List<Tree<E>> visitedChildren = myChildren;
         while ( visitedChildren != null )
         {
-            for ( Tree<E> subTree : visitedChildren )
+            for ( final Tree<E> subTree : visitedChildren )
             {
                 final E root = subTree.myElement;
                 final List<Tree<E>> children = locator.get( root );
@@ -72,12 +76,12 @@ public class Tree<E>
      * @param parent the parent node to find.
      * @return the list of children or {@code null}
      */
-    public List<Tree<E>> findChildrenOf( E parent )
+    public List<Tree<E>> findChildrenOf( final E parent )
     {
         List<Tree<E>> visitedChildren = myChildren;
         while ( visitedChildren != null )
         {
-            for ( Tree<E> subTree : visitedChildren )
+            for ( final Tree<E> subTree : visitedChildren )
             {
                 final E root = subTree.myElement;
                 if ( root.equals( parent ) )
@@ -114,7 +118,7 @@ public class Tree<E>
      *
      * @param isVisited the predicate for being visited.
      */
-    public void setVisited( boolean isVisited )
+    public void setVisited( final boolean isVisited )
     {
         myVisited = isVisited;
     }
@@ -134,7 +138,7 @@ public class Tree<E>
      * @param rootElement the root element of the Tree.
      * @return the TreeBuilder instance for building the Tree.
      */
-    public static <E> TreeBuilder<E> builder( E rootElement )
+    public static <E> TreeBuilder<E> builder( final E rootElement )
     {
         return new TreeBuilder<>( rootElement );
     }
@@ -148,12 +152,12 @@ public class Tree<E>
         /**
          * Used to track the root element.
          */
-        private T myRootElement;
+        private final T myRootElement;
         /**
          * We use a map to to locate {@literal "parent"} {@code Tree}. We rely on
          * the {@code <T>} type overriding {@link Object#hashCode()}.
          */
-        private Map<T, List<Tree<T>>> myLocator;
+        private final Map<T, List<Tree<T>>> myLocator;
 
         /**
          * Constructor.
@@ -161,7 +165,7 @@ public class Tree<E>
          * @param rootElement the root element to establish a guarantee
          *                    that the tree will not be empty.
          */
-        public TreeBuilder( T rootElement )
+        public TreeBuilder( final T rootElement )
         {
             if ( rootElement == null )
             {
@@ -179,7 +183,7 @@ public class Tree<E>
          * @param child  the child of the parent.
          * @return {@code this}.
          */
-        public TreeBuilder<T> addChild( T parent, T child )
+        public TreeBuilder<T> addChild( final T parent, final T child )
         {
             if ( Objects.equals( parent, child ) )
             {
@@ -202,7 +206,7 @@ public class Tree<E>
          * @param children the intended list of children of the parent.
          * @return {@code this}.
          */
-        public TreeBuilder<T> addAllChildren( T parent, List<T> children )
+        public TreeBuilder<T> addAllChildren( final T parent, final List<T> children )
         {
             children.stream().forEachOrdered( child -> addChild( parent, child ) );
             return this;
@@ -218,5 +222,4 @@ public class Tree<E>
         }
 
     }
-
 }
