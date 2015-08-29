@@ -9,25 +9,22 @@ import java.util.Map;
  * @author Jonathon Hope
  * @see <a href="https://confluence.atlassian.com/display/DOC/Code+Block+Macro">
  * Confluence Page describing the Macro</a>
- * @since 28/05/2015
  */
-public class CodeBlockMacro
-{
+public class CodeBlockMacro {
 
     /**
      * Stores the parameters of this code block macro.
      */
-    private EnumMap<Parameters, String> myParameters;
+    private EnumMap<Parameters, String> parameters;
     /**
      * The code of this CodeBlockMacro.
      */
-    private String myBody;
+    private String body;
 
     /**
      * Parameters are options that you can set to control the content or format of the macro output.
      */
-    public enum Parameters
-    {
+    public enum Parameters {
         /**
          * Can be either {@literal true} or {@literal false}
          * Default: false
@@ -67,8 +64,7 @@ public class CodeBlockMacro
         TITLE;
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             // replace the underscore with a slash and print as lower case
             return this.name().replace("_", "/").toLowerCase();
         }
@@ -78,8 +74,7 @@ public class CodeBlockMacro
     /**
      * The enumerated list of languages supported by the confluence code macro.
      */
-    public enum Languages
-    {
+    public enum Languages {
         ACTION_SCRIPT_3("actionscript3"),
         BASH("bash"),
         C_SHARP("c#"),     // (C#)
@@ -106,14 +101,12 @@ public class CodeBlockMacro
 
         public final String value;
 
-        Languages(String value)
-        {
+        Languages(String value) {
             this.value = value;
         }
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return this.value;
         }
     }
@@ -123,8 +116,7 @@ public class CodeBlockMacro
      *
      * @see CodeBlockMacro.Parameters#THEME
      */
-    public enum Themes
-    {
+    public enum Themes {
         D_JANGO,
         EMACS,
         FADE_TO_GREY,
@@ -140,14 +132,11 @@ public class CodeBlockMacro
          * @param theme the String to convert.
          * @return a String in Upper Camel Case format.
          */
-        private String convertToUpperCamel(String theme)
-        {
+        private String convertToUpperCamel(String theme) {
             StringBuilder sb = new StringBuilder();
-            for (String s : theme.split("_"))
-            {
+            for (String s : theme.split("_")) {
                 sb.append(Character.toUpperCase(s.charAt(0)));
-                if (s.length() > 1)
-                {
+                if (s.length() > 1) {
                     sb.append(s.substring(1, s.length()).toLowerCase());
                 }
             }
@@ -155,8 +144,7 @@ public class CodeBlockMacro
         }
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return convertToUpperCamel(super.toString());
         }
     }
@@ -168,10 +156,9 @@ public class CodeBlockMacro
      * @param builder the builder instance to use as a factory.
      * @see CodeBlockMacro.Builder
      */
-    protected CodeBlockMacro(Builder builder)
-    {
-        this.myParameters = builder.myParameters;
-        this.myBody = builder.myCode;
+    protected CodeBlockMacro(final Builder builder) {
+        this.parameters = builder.parameters;
+        this.body = builder.code;
     }
 
     /**
@@ -179,12 +166,10 @@ public class CodeBlockMacro
      *
      * @see <a href="https://confluence.atlassian.com/display/DOC/Code+Block+Macro">Confluence Page describing the Macro</a>
      */
-    public String toMarkup()
-    {
+    public String toMarkup() {
         StringBuilder sb = new StringBuilder();
         sb.append("<ac:structured-macro ac:name=\"code\">");
-        for (Map.Entry<Parameters, String> entry : myParameters.entrySet())
-        {
+        for (Map.Entry<Parameters, String> entry : parameters.entrySet()) {
             sb.append("<ac:parameter ac:name=\"");
             sb.append(entry.getKey().toString());
             sb.append("\">");
@@ -192,7 +177,7 @@ public class CodeBlockMacro
             sb.append("</ac:parameter>");
         }
         sb.append("<ac:plain-text-body>");
-        sb.append(myBody);
+        sb.append(body);
         sb.append("</ac:plain-text-body>");
         sb.append("</ac:structured-macro>");
         return sb.toString();
@@ -203,32 +188,28 @@ public class CodeBlockMacro
      *
      * @return a {@code Builder} instance for chain-building a CodeBlockMacro.
      */
-    public static Builder builder()
-    {
+    public static Builder builder() {
         return new Builder();
     }
 
     /**
      * A class for implementing the Builder Pattern for {@code CodeBlockMacro}.
      */
-    public static class Builder
-    {
-        private EnumMap<Parameters, String> myParameters;
-        private String myCode;
+    public static class Builder {
+        private EnumMap<Parameters, String> parameters;
+        private String code;
 
         /**
          * Constructor.
          */
-        private Builder()
-        {
-            myParameters = new EnumMap<>(Parameters.class);
+        private Builder() {
+            parameters = new EnumMap<>(Parameters.class);
         }
 
         /**
          * @return a new instance of {@code CodeBlockMacro}.
          */
-        public CodeBlockMacro build()
-        {
+        public CodeBlockMacro build() {
             return new CodeBlockMacro(this);
         }
 
@@ -245,9 +226,8 @@ public class CodeBlockMacro
          * @param l the Languages enum.
          * @see CodeBlockMacro.Languages
          */
-        public Builder language(Languages l)
-        {
-            myParameters.putIfAbsent(Parameters.LANGUAGE, l.value);
+        public Builder language(Languages l) {
+            parameters.putIfAbsent(Parameters.LANGUAGE, l.value);
             return this;
         }
 
@@ -257,9 +237,8 @@ public class CodeBlockMacro
          *      <ac:parameter ac:name=\"collapse\">true</ac:parameter>
          * }</pre>
          */
-        public Builder collapse()
-        {
-            myParameters.putIfAbsent(Parameters.COLLAPSE, "true");
+        public Builder collapse() {
+            parameters.putIfAbsent(Parameters.COLLAPSE, "true");
             return this;
         }
 
@@ -269,9 +248,8 @@ public class CodeBlockMacro
          *      <ac:parameter ac:name=\"linenumbers\">true</ac:parameter>
          * }</pre>
          */
-        public Builder showLineNumbers()
-        {
-            myParameters.putIfAbsent(Parameters.LINENUMBERS, "true");
+        public Builder showLineNumbers() {
+            parameters.putIfAbsent(Parameters.LINENUMBERS, "true");
             return this;
         }
 
@@ -281,12 +259,10 @@ public class CodeBlockMacro
          *      <ac:parameter ac:name=\"linenumbers\">true</ac:parameter><ac:parameter ac:name=\"firstline\">1</ac:parameter>
          * }</pre>
          */
-        public Builder firstline(int first)
-        {
+        public Builder firstline(int first) {
 
-            if (myParameters.containsKey(Parameters.LINENUMBERS))
-            {
-                myParameters.putIfAbsent(Parameters.FIRSTlINE, Integer.toString(first));
+            if (parameters.containsKey(Parameters.LINENUMBERS)) {
+                parameters.putIfAbsent(Parameters.FIRSTlINE, Integer.toString(first));
             }
 
             return this;
@@ -298,9 +274,8 @@ public class CodeBlockMacro
          *      <ac:parameter ac:name=\"theme\">Eclipse</ac:parameter>
          * }</pre>
          */
-        public Builder theme(Themes theme)
-        {
-            myParameters.putIfAbsent(Parameters.THEME, theme.toString());
+        public Builder theme(Themes theme) {
+            parameters.putIfAbsent(Parameters.THEME, theme.toString());
             return this;
         }
 
@@ -310,9 +285,8 @@ public class CodeBlockMacro
          *      <ac:parameter ac:name=\"title\">Request</ac:parameter>
          * }</pre>
          */
-        public Builder title(String title)
-        {
-            myParameters.putIfAbsent(Parameters.TITLE, title);
+        public Builder title(String title) {
+            parameters.putIfAbsent(Parameters.TITLE, title);
             return this;
         }
 
@@ -322,10 +296,9 @@ public class CodeBlockMacro
          * @param code the code contents, as a String.
          * @return {@code this}.
          */
-        public Builder code(String code)
-        {
+        public Builder code(String code) {
             // escape code in <![CDATA[ ... ]]> wrapper
-            this.myCode = "<![CDATA[" + code + "]]>";
+            this.code = "<![CDATA[" + code + "]]>";
             return this;
         }
     }

@@ -15,10 +15,8 @@ package com.softwareleaf.confluence.model;
  * }</pre>
  *
  * @author Jonathon Hope
- * @since 28/05/2015
  */
-public enum Type
-{
+public enum Type {
     BLOGPOST,
     PAGE;
 
@@ -26,8 +24,7 @@ public enum Type
      * We override this here to
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return super.toString().toLowerCase();
     }
 }

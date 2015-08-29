@@ -7,10 +7,8 @@ import com.google.gson.annotations.SerializedName;
  *
  * @author Jonathon Hope
  * @see <a href="https://docs.atlassian.com/atlassian-confluence/REST/latest/#d3e841">Space REST API</a>
- * @since 25/06/2015
  */
-public class SpaceResultList
-{
+public class SpaceResultList {
     @SerializedName("results")
     private Space[] spaces;
 
@@ -19,20 +17,17 @@ public class SpaceResultList
      *
      * @param spaces the array of {@code Space} instances.
      */
-    public SpaceResultList(Space[] spaces)
-    {
+    public SpaceResultList(Space[] spaces) {
         this.spaces = spaces;
     }
 
     // getter and setter
 
-    public Space[] getSpaces()
-    {
+    public Space[] getSpaces() {
         return spaces;
     }
 
-    public void setSpaces(Space[] spaces)
-    {
+    public void setSpaces(Space[] spaces) {
         this.spaces = spaces;
     }
 }

@@ -5,10 +5,8 @@ package com.softwareleaf.confluence.macro;
  *
  * @author Jonathon Hope
  * @see <a href="https://confluence.atlassian.com/display/DOC/HTML+Macro">HTML Macro Documentation</a>
- * @since 11/06/2015
  */
-public class HtmlMacro
-{
+public class HtmlMacro {
     /**
      * The HTML source.
      */
@@ -20,16 +18,14 @@ public class HtmlMacro
      * @param content the HTML source.
      *                NOTE: This cannot contain a {@literal <DOCTYPE html>} tag.
      */
-    public HtmlMacro(String content)
-    {
+    public HtmlMacro(final String content) {
         this.content = content;
     }
 
     /**
      * @return a structured macro (XML formatted) String, according to the confluence HTML Macro documentation.
      */
-    public String toMarkup()
-    {
+    public String toMarkup() {
         final StringBuilder sb = new StringBuilder(content.length() + 140);
         sb.append("<ac:structured-macro ac:name=\"html\">");
         sb.append("<ac:plain-text-body>");

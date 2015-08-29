@@ -8,10 +8,8 @@ import java.util.Objects;
  * @author Jonathon Hope
  * @see <a href="https://confluence.atlassian.com/display/DOC/Confluence+Storage+Format">
  * Confluence Storage Format</a>
- * @since 28/05/2015
  */
-public class Storage
-{
+public class Storage {
     /**
      * The markup or html of this {@code Storage}.
      */
@@ -20,7 +18,7 @@ public class Storage
     /**
      * The representation. The confluence REST API docs are unclear as to what the
      * full set of possible values for this are; but so far {@literal "view","page","storage"}.
-     * <p>
+     * <p/>
      * NOTE: {@literal "storage"} should almost always be used.
      */
     private String representation = "storage";
@@ -29,16 +27,14 @@ public class Storage
      * @see <a href="https://confluence.atlassian.com/display/DOC/Confluence+Storage+Format">
      * Confluence Storage Format</a>
      */
-    public enum Representation
-    {
+    public enum Representation {
         VIEW,
         PAGE,
         STORAGE,
         WIKI;
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return name().toLowerCase();
         }
     }
@@ -49,41 +45,33 @@ public class Storage
      * @param value          the markup of HTML.
      * @param representation the type of representation.
      */
-    public Storage(String value, String representation)
-    {
+    public Storage(String value, String representation) {
         this.value = value;
         this.representation = representation;
     }
 
-    public String getValue()
-    {
+    public String getValue() {
         return value;
     }
 
-    public void setValue(String value)
-    {
+    public void setValue(String value) {
         this.value = value;
     }
 
-    public String getRepresentation()
-    {
+    public String getRepresentation() {
         return representation;
     }
 
-    public void setRepresentation(String representation)
-    {
+    public void setRepresentation(String representation) {
         this.representation = representation;
     }
 
     @Override
-    public boolean equals(Object o)
-    {
-        if (this == o)
-        {
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass())
-        {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
         Storage storage = (Storage) o;
@@ -92,8 +80,7 @@ public class Storage
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hash(value, representation);
     }
 }

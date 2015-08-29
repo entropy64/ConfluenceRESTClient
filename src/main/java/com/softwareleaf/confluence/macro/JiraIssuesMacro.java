@@ -15,16 +15,13 @@ import java.util.stream.Collectors;
  *
  * @author Jonathon Hope
  * @see <a href="https://confluence.atlassian.com/display/DOC/JIRA+Issues+Macro">JIRA Issues Macro</a>
- * @since 18/06/2015
  */
-public class JiraIssuesMacro
-{
+public class JiraIssuesMacro {
 
     /**
      * Parameters are options that you can set to control the content or format of the macro output.
      */
-    public enum Parameters
-    {
+    public enum Parameters {
         /**
          * If this parameter is set to 'true', JIRA will return only the issues which allow
          * unrestricted viewing. That is, the issues which are visible to anonymous viewers,
@@ -109,27 +106,23 @@ public class JiraIssuesMacro
          * @param string the String to convert.
          * @return a String in Camel Case format.
          */
-        private String convertToCamelCase(String string)
-        {
-            StringBuilder sb = new StringBuilder();
-            String[] parts = string.split("_");
+        private String convertToCamelCase(final String string) {
+            final StringBuilder sb = new StringBuilder();
+            final String[] parts = string.split("_");
             sb.append(parts[0].toLowerCase());
-            for (int i = 1; i <= parts.length - 1; i++)
-            {
+            for (int i = 1; i <= parts.length - 1; i++) {
                 sb.append(toProperCase(parts[i]));
             }
             return sb.toString();
         }
 
-        private String toProperCase(String s)
-        {
+        private String toProperCase(final String s) {
             return s.substring(0, 1).toUpperCase() +
                     s.substring(1).toLowerCase();
         }
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return convertToCamelCase(name());
         }
 
@@ -138,14 +131,12 @@ public class JiraIssuesMacro
     /**
      * To be used with the {@link Builder#renderMode(RenderMode)}
      */
-    public enum RenderMode
-    {
+    public enum RenderMode {
         STATIC,
         DYNAMIC;
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return name().toLowerCase();
         }
     }
@@ -153,14 +144,12 @@ public class JiraIssuesMacro
     /**
      * To be used with the {@link Builder#cache(Cache)}
      */
-    public enum Cache
-    {
+    public enum Cache {
         ON,
         OFF;
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return name().toLowerCase();
         }
     }
@@ -168,8 +157,7 @@ public class JiraIssuesMacro
     /**
      * To be used with {@link Builder#count(boolean)}
      */
-    public enum Columns
-    {
+    public enum Columns {
         TYPE,
         KEY,
         SUMMARY,
@@ -183,8 +171,7 @@ public class JiraIssuesMacro
         DUE;
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return name().toLowerCase();
         }
     }
@@ -199,9 +186,8 @@ public class JiraIssuesMacro
      *
      * @param builder the builder factory used to build this {@code JiraIssuesMacro}
      */
-    protected JiraIssuesMacro(Builder builder)
-    {
-        this.parameters = builder.myParameters;
+    protected JiraIssuesMacro(Builder builder) {
+        this.parameters = builder.parameters;
     }
 
     /**
@@ -209,12 +195,10 @@ public class JiraIssuesMacro
      *
      * @return a String conversion of the markup for this macro.
      */
-    public String toWikiMarkup()
-    {
+    public String toWikiMarkup() {
         StringBuilder sb = new StringBuilder();
         sb.append("{jiraissues:");
-        for (Map.Entry<Parameters, String> entry : parameters.entrySet())
-        {
+        for (Map.Entry<Parameters, String> entry : parameters.entrySet()) {
             sb.append(entry.getKey().toString());
             sb.append("=");
             sb.append(entry.getValue());
@@ -232,8 +216,7 @@ public class JiraIssuesMacro
      * @return a String containing the wiki markup of this macro, to storage representation.
      * @throws NullPointerException if {@param client} is null.
      */
-    public String toStorageRepresentation(ConfluenceClient client)
-    {
+    public String toStorageRepresentation(ConfluenceClient client) {
         client = Objects.requireNonNull(client);
         Storage wikiStorage = new Storage(toWikiMarkup(), Storage.Representation.WIKI.toString());
         return client.convertContent(wikiStorage, Storage.Representation.STORAGE).getValue();
@@ -244,22 +227,19 @@ public class JiraIssuesMacro
      *
      * @return a {@code Builder} instance for chain-building a CodeBlockMacro.
      */
-    public static Builder builder()
-    {
+    public static Builder builder() {
         return new Builder();
     }
 
     /**
      * A class for implementing the Builder Pattern for {@code CodeBlockMacro}.
      */
-    public static class Builder
-    {
-        private EnumMap<Parameters, String> myParameters;
+    public static class Builder {
+        private EnumMap<Parameters, String> parameters;
 
         // constructor
-        private Builder()
-        {
-            myParameters = new EnumMap<>(Parameters.class);
+        private Builder() {
+            parameters = new EnumMap<>(Parameters.class);
         }
 
         /**
@@ -268,8 +248,7 @@ public class JiraIssuesMacro
          * @return a new instance of {@code JiraIssuesMacro} configured by
          * the parameters set by this {@code Builder}
          */
-        public JiraIssuesMacro build()
-        {
+        public JiraIssuesMacro build() {
             checkParameters();
             return new JiraIssuesMacro(this);
         }
@@ -279,11 +258,10 @@ public class JiraIssuesMacro
          * @return {@code this}.
          * @see JiraIssuesMacro.Columns
          */
-        public Builder columns(Columns[] columns)
-        {
-            String cols = Arrays.stream(columns)
+        public Builder columns(final Columns[] columns) {
+            final String cols = Arrays.stream(columns)
                     .map(Columns::toString).collect(Collectors.joining(","));
-            myParameters.putIfAbsent(Parameters.COLUMNS, cols);
+            parameters.putIfAbsent(Parameters.COLUMNS, cols);
             return this;
         }
 
@@ -292,9 +270,8 @@ public class JiraIssuesMacro
          * @return {@code this}.
          * @see Parameters#COUNT
          */
-        public Builder count(boolean count)
-        {
-            myParameters.putIfAbsent(Parameters.COUNT, Boolean.toString(count));
+        public Builder count(final boolean count) {
+            parameters.putIfAbsent(Parameters.COUNT, Boolean.toString(count));
             return this;
         }
 
@@ -303,9 +280,8 @@ public class JiraIssuesMacro
          * @return {@code this}
          * @see JiraIssuesMacro.Parameters#CACHE
          */
-        public Builder cache(Cache cache)
-        {
-            myParameters.putIfAbsent(Parameters.CACHE, cache.toString());
+        public Builder cache(final Cache cache) {
+            parameters.putIfAbsent(Parameters.CACHE, cache.toString());
             return this;
         }
 
@@ -315,11 +291,9 @@ public class JiraIssuesMacro
          * @param height the height value.
          * @return {@code this}
          */
-        public Builder height(int height)
-        {
-            if (height >= 200)
-            {
-                myParameters.putIfAbsent(Parameters.HEIGHT, Integer.toString(height));
+        public Builder height(final int height) {
+            if (height >= 200) {
+                parameters.putIfAbsent(Parameters.HEIGHT, Integer.toString(height));
             }
             return this;
         }
@@ -328,9 +302,8 @@ public class JiraIssuesMacro
          * @param renderMode the {@link JiraIssuesMacro.RenderMode} to set.
          * @return {@code this}
          */
-        public Builder renderMode(RenderMode renderMode)
-        {
-            myParameters.putIfAbsent(Parameters.RENDER_MODE, renderMode.toString());
+        public Builder renderMode(final RenderMode renderMode) {
+            parameters.putIfAbsent(Parameters.RENDER_MODE, renderMode.toString());
             return this;
         }
 
@@ -343,9 +316,8 @@ public class JiraIssuesMacro
          * @param title the title to set.
          * @return {@code this}.
          */
-        public Builder title(String title)
-        {
-            myParameters.putIfAbsent(Parameters.TITLE, title);
+        public Builder title(final String title) {
+            parameters.putIfAbsent(Parameters.TITLE, title);
             return this;
         }
 
@@ -355,9 +327,8 @@ public class JiraIssuesMacro
          * @param url the URL to set.
          * @return {@code this}.
          */
-        public Builder url(URL url)
-        {
-            myParameters.putIfAbsent(Parameters.URL, url.toString());
+        public Builder url(final URL url) {
+            parameters.putIfAbsent(Parameters.URL, url.toString());
             return this;
         }
 
@@ -367,11 +338,9 @@ public class JiraIssuesMacro
          * @param percentage a value must be greater or equal to {@code 500}.
          * @return {@code this}.
          */
-        public Builder width(int percentage)
-        {
-            if (percentage >= 500)
-            {
-                myParameters.putIfAbsent(Parameters.WIDTH, Integer.toString(percentage));
+        public Builder width(final int percentage) {
+            if (percentage >= 500) {
+                parameters.putIfAbsent(Parameters.WIDTH, Integer.toString(percentage));
             }
             return this;
         }
@@ -379,10 +348,8 @@ public class JiraIssuesMacro
         /**
          * Validates that certain required parameters are set.
          */
-        private void checkParameters()
-        {
-            if (myParameters.get(Parameters.URL) == null)
-            {
+        private void checkParameters() {
+            if (parameters.get(Parameters.URL) == null) {
                 throw new IllegalStateException("URL is required.");
             }
         }

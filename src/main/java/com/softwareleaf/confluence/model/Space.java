@@ -16,10 +16,8 @@ import com.google.gson.GsonBuilder;
  * }</pre>
  *
  * @author Jonathon Hope
- * @since 28/05/2015
  */
-public class Space
-{
+public class Space {
     /**
      * The space key. For example: {@literal "DEV"}.
      */
@@ -32,56 +30,49 @@ public class Space
     /**
      * Default constructor.
      */
-    public Space() {}
+    public Space() {
+    }
 
     /**
      * Constructor.
      */
-    public Space(String key)
-    {
+    public Space(String key) {
         this.key = key;
     }
 
-    public String getKey()
-    {
+    public String getKey() {
         return key;
     }
 
-    public void setKey(String key)
-    {
+    public void setKey(String key) {
         this.key = key;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return new GsonBuilder().disableHtmlEscaping().create().toJson(this);
     }
 
     // equals and hashcode
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int result = 17;
-        result =  31 * result + key.hashCode();
-        result =  31 * result + name.hashCode();
+        result = 31 * result + key.hashCode();
+        result = 31 * result + name.hashCode();
         return result;
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if (obj == this) return true;
         if (obj == null) return false;
         if (!(obj instanceof Space)) return false;

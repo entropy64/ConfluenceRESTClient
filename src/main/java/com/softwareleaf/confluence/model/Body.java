@@ -6,10 +6,8 @@ import java.util.Objects;
  * This object represents the Body of some {@code Content}.
  *
  * @author Jonathon Hope
- * @since 29/05/2015
  */
-public class Body
-{
+public class Body {
     private Storage storage;
 
     /**
@@ -17,8 +15,7 @@ public class Body
      *
      * @param storage the instance of {@code Storage} to wrap.
      */
-    public Body(final Storage storage)
-    {
+    public Body(final Storage storage) {
         this.storage = storage;
     }
 
@@ -27,8 +24,7 @@ public class Body
      *
      * @return the storage object encapsulated by this Body.
      */
-    public Storage getStorage()
-    {
+    public Storage getStorage() {
         return storage;
     }
 
@@ -37,20 +33,16 @@ public class Body
      *
      * @param storage the instance of storage.
      */
-    public void setStorage(Storage storage)
-    {
+    public void setStorage(Storage storage) {
         this.storage = storage;
     }
 
     @Override
-    public boolean equals(Object o)
-    {
-        if (this == o)
-        {
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass())
-        {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
         Body body = (Body) o;
@@ -58,8 +50,7 @@ public class Body
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hash(storage);
     }
 }

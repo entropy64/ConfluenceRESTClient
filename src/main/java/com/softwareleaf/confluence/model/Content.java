@@ -27,10 +27,8 @@ import java.util.Objects;
  * </pre>
  *
  * @author Jonathon Hope
- * @since 28/05/2015
  */
-public class Content
-{
+public class Content {
     /**
      * The id of the page or blog post.
      */
@@ -62,8 +60,7 @@ public class Content
      * Default Constructor.
      */
 
-    public Content()
-    {
+    public Content() {
     }
 
     /**
@@ -79,8 +76,7 @@ public class Content
                    String type,
                    Space space,
                    String title,
-                   Body body)
-    {
+                   Body body) {
         this.id = id;
         this.type = type;
         this.title = title;
@@ -90,83 +86,67 @@ public class Content
 
     // getters and setters
 
-    public String getType()
-    {
+    public String getType() {
         return type;
     }
 
-    public void setType(Type type)
-    {
+    public void setType(Type type) {
         this.type = type.toString();
     }
 
-    public Parent[] getAncestors()
-    {
+    public Parent[] getAncestors() {
         return ancestors;
     }
 
-    public void setAncestors(Parent[] ancestors)
-    {
+    public void setAncestors(Parent[] ancestors) {
         this.ancestors = ancestors;
     }
 
-    public Space getSpace()
-    {
+    public Space getSpace() {
         return space;
     }
 
-    public void setSpace(Space space)
-    {
+    public void setSpace(Space space) {
         this.space = space;
     }
 
-    public String getTitle()
-    {
+    public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title)
-    {
+    public void setTitle(String title) {
         this.title = title;
     }
 
-    public Body getBody()
-    {
+    public Body getBody() {
         return body;
     }
 
-    public void setBody(Body body)
-    {
+    public void setBody(Body body) {
         this.body = body;
     }
 
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
 
-    public void setId(String id)
-    {
+    public void setId(String id) {
         this.id = id;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return new GsonBuilder().disableHtmlEscaping().create().toJson(this);
     }
 
     // equals and hashcode
 
     @Override
-    public boolean equals(Object o)
-    {
-        if (this == o)
-        {
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
         }
-        if (o == null || !(o instanceof Content))
-        {
+        if (o == null || !(o instanceof Content)) {
             return false;
         }
         Content content = (Content) o;
@@ -179,8 +159,7 @@ public class Content
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hash(id, type, ancestors, space, title, body);
     }
 }

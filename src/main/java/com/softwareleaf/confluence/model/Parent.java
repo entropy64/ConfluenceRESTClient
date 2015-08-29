@@ -7,10 +7,8 @@ import java.util.Objects;
  * piece of content.
  *
  * @author Jonathon Hope
- * @since 18/06/2015
  */
-public class Parent
-{
+public class Parent {
     /**
      * The id of the parent.
      */
@@ -23,8 +21,7 @@ public class Parent
     /**
      * Constructor.
      */
-    public Parent()
-    {
+    public Parent() {
     }
 
     /**
@@ -33,42 +30,34 @@ public class Parent
      * @param id   the id of the parent.
      * @param type the type of the parent.
      */
-    public Parent(String id, String type)
-    {
+    public Parent(String id, String type) {
         this.id = id;
         this.type = type;
     }
 
 
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
 
-    public void setId(String id)
-    {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getType()
-    {
+    public String getType() {
         return type;
     }
 
-    public void setType(String type)
-    {
+    public void setType(String type) {
         this.type = type;
     }
 
     @Override
-    public boolean equals(Object o)
-    {
-        if (this == o)
-        {
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass())
-        {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
         Parent parent = (Parent) o;
@@ -77,8 +66,7 @@ public class Parent
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hash(id, type);
     }
 }

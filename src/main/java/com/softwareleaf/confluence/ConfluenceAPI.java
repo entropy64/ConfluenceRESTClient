@@ -2,8 +2,8 @@ package com.softwareleaf.confluence;
 
 import com.softwareleaf.confluence.model.*;
 import retrofit.Callback;
-import retrofit.http.*;
 import retrofit.http.Body;
+import retrofit.http.*;
 
 import java.util.Map;
 
@@ -11,10 +11,8 @@ import java.util.Map;
  * Specifies the API paths that are so far supported with this confluence client.
  *
  * @author Jonathon Hope
- * @since 29/05/2015
  */
-public interface ConfluenceAPI
-{
+public interface ConfluenceAPI {
 
     /**
      * Fetch a results object containing a paginated list of content.
@@ -34,7 +32,8 @@ public interface ConfluenceAPI
      * of {@code Content} instances obtained from the API call.
      */
     @GET("/rest/api/content")
-    ContentResultList getContentBySpaceKeyAndTitle(@Query("key") String key, @Query("title") String title);
+    ContentResultList getContentBySpaceKeyAndTitle(final @Query("key") String key,
+                                                   final @Query("title") String title);
 
     /**
      * GET Content
@@ -43,7 +42,7 @@ public interface ConfluenceAPI
      * @return the Content instance representing the JSON response.
      */
     @GET("/rest/api/content/{id}" + QueryParams.EXPAND_BODY_STORAGE)
-    Content getContentById(@Path("id") String id);
+    Content getContentById(final @Path("id") String id);
 
     /**
      * POST Conversion request. Used for converting between storage formats.
@@ -54,7 +53,8 @@ public interface ConfluenceAPI
      * the conversion request.
      */
     @POST("/rest/api/contentbody/convert/{to}")
-    Storage postContentConverstion(@Body Storage storage, @Path("to") String convertToFormat);
+    Storage postContentConverstion(final @Body Storage storage,
+                                   final @Path("to") String convertToFormat);
 
     /**
      * POST Content.
@@ -62,7 +62,7 @@ public interface ConfluenceAPI
      * @param content the piece of Content to be included in the body of the request.
      */
     @POST("/rest/api/content")
-    Content postContent(@Body Content content);
+    Content postContent(final @Body Content content);
 
     /**
      * Same as {@link #postContent} but clients can provide a callback with success
@@ -73,13 +73,14 @@ public interface ConfluenceAPI
      *                 the success or failure of the invocation.
      */
     @POST("/rest/api/content")
-    void postContentWithCallback(@Body Content content, Callback<Content> callback);
+    void postContentWithCallback(final @Body Content content,
+                                 final Callback<Content> callback);
 
     /**
      * DELETE Content
-     * <p>
+     * <p/>
      * Trashes or purges a piece of Content, based on its {@literal ContentType} and {@literal ContentStatus}.
-     * <p>
+     * <p/>
      * There are three cases:
      * If the content is trashable and its status is {@literal ContentStatus#CURRENT}, it will be trashed.
      * If the content is trashable, its status is {@literal ContentStatus#TRASHED} and the "status" query parameter in
@@ -89,7 +90,7 @@ public interface ConfluenceAPI
      * @param id the id of the page of blog post to be deleted.
      */
     @DELETE("/rest/api/content/{id}")
-    NoContent deleteContentById(@Path("id") String id);
+    NoContent deleteContentById(final @Path("id") String id);
 
     /**
      * Obtain a result list of available spaces.
@@ -104,11 +105,12 @@ public interface ConfluenceAPI
      * Fetch all content from a confluence space.
      *
      * @param spaceKey the key that identifies the target Space.
-     * @param params  the query parameters.
+     * @param params   the query parameters.
      * @return a list of all content in the given Space identified by {@param spaceKey}.
      */
     @GET("/rest/api/space/{spaceKey}/content/page")
-    ContentResultList getAllSpaceContent(@Path("spaceKey") String spaceKey, @QueryMap Map<String, String> params);
+    ContentResultList getAllSpaceContent(final @Path("spaceKey") String spaceKey,
+                                         final @QueryMap Map<String, String> params);
 
     /**
      * Obtain paginated results of root content available from a given space.
@@ -118,6 +120,7 @@ public interface ConfluenceAPI
      * @return a wrapper model around the {@link ContentResultList} resulting from this call.
      */
     @GET("/rest/api/space/{spaceKey}/content/{type}")
-    ContentResultList getRootContentBySpaceKey(@Path("spaceKey") String spaceKey, @Path("type") String contentType);
+    ContentResultList getRootContentBySpaceKey(final @Path("spaceKey") String spaceKey,
+                                               final @Path("type") String contentType);
 
 }

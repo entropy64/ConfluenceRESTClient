@@ -5,7 +5,7 @@ import java.util.Map;
 
 /**
  * Represents a confluence Table of Contents Macro.
- * <p>
+ * <p/>
  * Usage
  * <pre>{@literal
  * String macro = TableOfContentsMacro.builder()
@@ -19,16 +19,13 @@ import java.util.Map;
  * @author Jonathon Hope
  * @see <a href="https://confluence.atlassian.com/display/DOC/Table+of+Contents+Macro">table of Contents
  * Macro Documentation</a>
- * @since 16/06/2015
  */
-public class TableOfContentsMacro
-{
+public class TableOfContentsMacro {
 
     /**
      * Parameters are options that you can set to control the content or format of the macro output.
      */
-    public enum Parameters
-    {
+    public enum Parameters {
         /**
          * Enables section numbering.
          * <pre>{@literal
@@ -87,27 +84,23 @@ public class TableOfContentsMacro
          * @param string the String to convert.
          * @return a String in Camel Case format.
          */
-        private String convertToCamelCase(String string)
-        {
-            StringBuilder sb = new StringBuilder();
-            String[] parts = string.split("_");
+        private String convertToCamelCase(final String string) {
+            final StringBuilder sb = new StringBuilder();
+            final String[] parts = string.split("_");
             sb.append(parts[0].toLowerCase());
-            for (int i = 1; i <= parts.length - 1; i++)
-            {
+            for (int i = 1; i <= parts.length - 1; i++) {
                 sb.append(toProperCase(parts[i]));
             }
             return sb.toString();
         }
 
-        private String toProperCase(String s)
-        {
+        private String toProperCase(final String s) {
             return s.substring(0, 1).toUpperCase() +
                     s.substring(1).toLowerCase();
         }
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return convertToCamelCase(this.name());
         }
     }
@@ -115,13 +108,12 @@ public class TableOfContentsMacro
     /**
      * The output style of the table of contents.
      */
-    public enum OutputType
-    {
+    public enum OutputType {
         /**
          * Causes the output style of the table of contents
          * to be laid out in a flat series of links separated
          * by square brackets.
-         * <p>
+         * <p/>
          * For Example:
          * <pre>{@literal
          *      [ 1 Summary ] [ 2 Cacheable HTTPS response ] [ 2.1 Issue Background ] ...
@@ -131,7 +123,7 @@ public class TableOfContentsMacro
         /**
          * Causes the output style of the table of contents to be laid out
          * as an indented list.
-         * <p>
+         * <p/>
          * For example:
          * <pre>{@literal
          *  1 Summary
@@ -145,8 +137,7 @@ public class TableOfContentsMacro
         LIST;
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return this.name().toLowerCase();
         }
     }
@@ -154,45 +145,43 @@ public class TableOfContentsMacro
     /**
      * The bullet point style to use for each list item.
      */
-    public enum ListStyle
-    {
+    public enum ListStyle {
         /**
-         * none — no list style is displayed
+         * none ï¿½ no list style is displayed
          */
         NONE,
         /**
-         * circle —  the list style is a circle
+         * circle ï¿½  the list style is a circle
          */
         CIRCLE,
         /**
-         * disc — the list style is a filled circle. This is the typical
+         * disc ï¿½ the list style is a filled circle. This is the typical
          * bullet list, and is used for this example list.
          */
         DISC,
         /**
-         * square — the list style is a square
+         * square ï¿½ the list style is a square
          */
         SQUARE,
         /**
-         * decimal — the list is numbered (1, 2, 3, 4, 5)
+         * decimal ï¿½ the list is numbered (1, 2, 3, 4, 5)
          */
         DECIMAL,
         /**
-         * lower-alpha — the list is lower-case, alphabetised (a, b, c, d, e)
+         * lower-alpha ï¿½ the list is lower-case, alphabetised (a, b, c, d, e)
          */
         LOWER_ALPHA,
         /**
-         * lower-roman — the list style is lower roman numerals (i, ii, iii, iv, v, vi)
+         * lower-roman ï¿½ the list style is lower roman numerals (i, ii, iii, iv, v, vi)
          */
         LOWER_ROMAN,
         /**
-         * upper-roman — the list style is upper roman numerals (I, II, III, IV, V, VI)
+         * upper-roman ï¿½ the list style is upper roman numerals (I, II, III, IV, V, VI)
          */
         UPPER_ROMAN;
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             // replace the underscore with a dash and print as lower case
             return this.name().replace('_', '-').toLowerCase();
         }
@@ -201,17 +190,14 @@ public class TableOfContentsMacro
     /**
      * The available indentation levels.
      */
-    public enum Indentation
-    {
+    public enum Indentation {
         TEN_PX,
         TWENTY_PX,
         THIRTY_PX,
         FORTY_PX;
 
-        private String convert()
-        {
-            switch (name())
-            {
+        private String convert() {
+            switch (name()) {
                 case "TEN_PX":
                     return "10px";
                 case "TWENTY_PX":
@@ -224,8 +210,7 @@ public class TableOfContentsMacro
         }
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return convert();
         }
     }
@@ -233,28 +218,26 @@ public class TableOfContentsMacro
     /**
      * This parameter applies to flat lists only.  You can enter any of the following values:
      */
-    public enum Separator
-    {
+    public enum Separator {
         /**
-         * brackets — Each item is enclosed by square brackets: [ ].
+         * brackets ï¿½ Each item is enclosed by square brackets: [ ].
          */
         BRACKETS,
         /**
-         * braces — Each item is enclosed by braces: { }.
+         * braces ï¿½ Each item is enclosed by braces: { }.
          */
         BRACES,
         /**
-         * parens — Each item is enclosed by parentheses: ( ).
+         * parens ï¿½ Each item is enclosed by parentheses: ( ).
          */
         PARENS,
         /**
-         * pipe — Each item is separated by a pipe:
+         * pipe ï¿½ Each item is separated by a pipe:
          */
         PIPE;
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return super.toString().toLowerCase();
         }
     }
@@ -271,20 +254,17 @@ public class TableOfContentsMacro
      *
      * @param builder the factory object used to build an instance of this class.
      */
-    public TableOfContentsMacro(Builder builder)
-    {
+    public TableOfContentsMacro(final Builder builder) {
         this.parameters = builder.parameters;
     }
 
     /**
      * @return a String containing the XML markup for the confluence storage format.
      */
-    public String toMarkup()
-    {
-        StringBuilder sb = new StringBuilder();
+    public String toMarkup() {
+        final StringBuilder sb = new StringBuilder();
         sb.append("<ac:structured-macro ac:name=\"toc\">");
-        for (Map.Entry<Parameters, String> entry : parameters.entrySet())
-        {
+        for (Map.Entry<Parameters, String> entry : parameters.entrySet()) {
             sb.append("<ac:parameter ac:name=\"");
             sb.append(entry.getKey().toString());
             sb.append("\">");
@@ -300,27 +280,23 @@ public class TableOfContentsMacro
      *
      * @return a {@code Builder} instance for chain-building a CodeBlockMacro.
      */
-    public static Builder builder()
-    {
+    public static Builder builder() {
         return new Builder();
     }
 
     /**
      * A class for implementing the Builder Pattern for {@code CodeBlockMacro}.
      */
-    public static class Builder
-    {
+    public static class Builder {
         private EnumMap<Parameters, String> parameters;
 
         // check if a parameter has already been set.
-        private boolean parameterNotSet(Parameters p)
-        {
+        private boolean parameterNotSet(final Parameters p) {
             return !parameters.containsKey(p);
         }
 
         // Constructor.
-        private Builder()
-        {
+        private Builder() {
             parameters = new EnumMap<>(Parameters.class);
         }
 
@@ -330,8 +306,7 @@ public class TableOfContentsMacro
          * @return an instance {@code TableOfContentsMacro} that was configured
          * by this Builder.
          */
-        public TableOfContentsMacro build()
-        {
+        public TableOfContentsMacro build() {
             return new TableOfContentsMacro(this);
         }
 
@@ -340,10 +315,8 @@ public class TableOfContentsMacro
          *
          * @return {@code this}.
          */
-        public Builder enableNumbering()
-        {
-            if (parameterNotSet(Parameters.OUTLINE))
-            {
+        public Builder enableNumbering() {
+            if (parameterNotSet(Parameters.OUTLINE)) {
                 parameters.put(Parameters.OUTLINE, "true");
             }
             return this;
@@ -355,10 +328,8 @@ public class TableOfContentsMacro
          * @param outputType the style of Table of Contents to produce.
          * @return {@code this}.
          */
-        public Builder outputType(OutputType outputType)
-        {
-            if (parameterNotSet(Parameters.TYPE))
-            {
+        public Builder outputType(final OutputType outputType) {
+            if (parameterNotSet(Parameters.TYPE)) {
                 parameters.put(Parameters.TYPE, outputType.toString());
             }
             return this;
@@ -370,10 +341,8 @@ public class TableOfContentsMacro
          * @param listStyle the style to set.
          * @return {@code this}.
          */
-        public Builder bulletPointStyle(ListStyle listStyle)
-        {
-            if (parameterNotSet(Parameters.TYPE))
-            {
+        public Builder bulletPointStyle(final ListStyle listStyle) {
+            if (parameterNotSet(Parameters.TYPE)) {
                 parameters.put(Parameters.STYLE, listStyle.toString());
             }
             return this;
@@ -385,10 +354,8 @@ public class TableOfContentsMacro
          * @param indentation the indentation level to use.
          * @return {@code this}.
          */
-        public Builder indentation(Indentation indentation)
-        {
-            if (parameterNotSet(Parameters.INDENT))
-            {
+        public Builder indentation(final Indentation indentation) {
+            if (parameterNotSet(Parameters.INDENT)) {
                 parameters.put(Parameters.INDENT, indentation.toString());
             }
             return this;
@@ -400,10 +367,8 @@ public class TableOfContentsMacro
          * @param separator the builtin separator to use.
          * @return {@code this}.
          */
-        public Builder separator(Separator separator)
-        {
-            if (parameterNotSet(Parameters.SEPARATOR))
-            {
+        public Builder separator(final Separator separator) {
+            if (parameterNotSet(Parameters.SEPARATOR)) {
                 parameters.put(Parameters.SEPARATOR, separator.toString());
             }
             return this;
@@ -419,10 +384,8 @@ public class TableOfContentsMacro
          * @param separator the custom separator to use.
          * @return {@code this}.
          */
-        public Builder separator(String separator)
-        {
-            if (parameterNotSet(Parameters.SEPARATOR))
-            {
+        public Builder separator(final String separator) {
+            if (parameterNotSet(Parameters.SEPARATOR)) {
                 parameters.put(Parameters.SEPARATOR, separator);
             }
             return this;
@@ -435,12 +398,10 @@ public class TableOfContentsMacro
          *          For example: {@code 1} for {@literal <h1>}.
          * @return {@code this}.
          */
-        public Builder minHeadingLevel(int i)
-        {
+        public Builder minHeadingLevel(final int i) {
             if (i <= 6 && i > 0) // h1 - h6
             {
-                if (parameterNotSet(Parameters.MIN_LEVEL))
-                {
+                if (parameterNotSet(Parameters.MIN_LEVEL)) {
                     parameters.put(Parameters.MIN_LEVEL, Integer.toString(i));
                 }
             }
@@ -455,12 +416,10 @@ public class TableOfContentsMacro
          *          For example: {@code 1} for {@literal <h1>}.
          * @return {@code this}.
          */
-        public Builder maxHeadingLevel(int i)
-        {
+        public Builder maxHeadingLevel(final int i) {
             if (i <= 6 && i > 0) // h1 - h6
             {
-                if (parameterNotSet(Parameters.MAX_LEVEL))
-                {
+                if (parameterNotSet(Parameters.MAX_LEVEL)) {
                     parameters.put(Parameters.MAX_LEVEL, Integer.toString(i));
                 }
             }
@@ -472,10 +431,8 @@ public class TableOfContentsMacro
          *
          * @return {@code this}.
          */
-        public Builder disablePrinting()
-        {
-            if (parameterNotSet(Parameters.PRINTABLE))
-            {
+        public Builder disablePrinting() {
+            if (parameterNotSet(Parameters.PRINTABLE)) {
                 parameters.put(Parameters.PRINTABLE, "false");
             }
             return this;

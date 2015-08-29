@@ -7,10 +7,8 @@ import com.google.gson.annotations.SerializedName;
  * GET {@literal /rest/api/content/} API call.
  *
  * @author Jonathon Hope
- * @since 9/06/2015
  */
-public class ContentResultList
-{
+public class ContentResultList {
     @SerializedName("results")
     private Content[] contents;
 
@@ -19,20 +17,17 @@ public class ContentResultList
      *
      * @param contents the array of Content instances.
      */
-    public ContentResultList(Content[] contents)
-    {
+    public ContentResultList(Content[] contents) {
         this.contents = contents;
     }
 
     // getter and setter
 
-    public Content[] getContents()
-    {
+    public Content[] getContents() {
         return contents;
     }
 
-    public void setContents(Content[] contents)
-    {
+    public void setContents(Content[] contents) {
         this.contents = contents;
     }
 }
