@@ -8,9 +8,45 @@
     <artifactId>confluence-api-client</artifactId>
     <version>0.5</version>
 
-    <dependencies>
+    <description>
+        A Java client for interacting with the Atlassian Confluence REST API.
+    </description>
 
-        <!-- JUnit -->
+    <!-- Developer Information -->
+    <developers>
+        <developer>
+            <name>Jonathon Hope</name>
+            <email>jonathon.a.hope@gmail.com</email>
+        </developer>
+    </developers>
+
+    <!-- Issue management details -->
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/entropy64/confluenceRESTClient/issues</url>
+    </issueManagement>
+
+    <scm>
+        <url>https://github.com/entropy64/confluenceRESTClient</url>
+        <connection>scm:git:git://github.com/entropy64/confluenceRESTClient.git</connection>
+        <developerConnection>scm:git:git@github.com:entropy64/confluenceRESTClient.git</developerConnection>
+        <tag>develop</tag>
+    </scm>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>sonatype-nexus-snapshots</id>
+            <name>Sonatype OSS Snapshots</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <name>Sonatype OSS Staging</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <dependencies>
 
         <dependency>
             <groupId>junit</groupId>
@@ -86,6 +122,41 @@
                         <source>1.8</source>
                         <target>1.8</target>
                     </configuration>
+                </plugin>
+
+                <!-- Builds the Javadoc jar -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.10</version>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- GPG Plugin for signing artifacts -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>1.6</version>
+                    <executions>
+                        <execution>
+                            <id>sign-artifacts</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>sign</goal>
+                            </goals>
+                            <configuration>
+                                <executable>/usr/local/bin/gpg</executable>
+                                <passphrase>${gpg.passphrase}</passphrase>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
 
                 <plugin>
