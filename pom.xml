@@ -4,7 +4,7 @@
 
     <groupId>com.softwareleaf.confluence</groupId>
     <artifactId>confluence-api-client</artifactId>
-    <version>0.5.1</version>
+    <version>0.5.2-SNAPSHOT</version>
 
     <description>
         A Java client for interacting with the Atlassian Confluence REST API.
@@ -28,7 +28,7 @@
         <url>https://github.com/entropy64/confluenceRESTClient</url>
         <connection>scm:git:git://github.com/entropy64/confluenceRESTClient.git</connection>
         <developerConnection>scm:git:git@github.com:entropy64/confluenceRESTClient.git</developerConnection>
-        <tag>release</tag>
+        <tag>develop</tag>
     </scm>
 
     <distributionManagement>
