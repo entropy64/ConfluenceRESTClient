@@ -1,4 +1,4 @@
-package com.softwareleaf.confluence.macro;
+package com.softwareleaf.confluence.rest.macro;
 
 /**
  * Represents an expandable body of rich text.

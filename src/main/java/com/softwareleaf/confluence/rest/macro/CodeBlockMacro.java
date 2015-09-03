@@ -1,4 +1,6 @@
-package com.softwareleaf.confluence.macro;
+package com.softwareleaf.confluence.rest.macro;
+
+import com.softwareleaf.confluence.rest.util.StringUtils;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -22,7 +24,8 @@ public class CodeBlockMacro {
     private String body;
 
     /**
-     * Parameters are options that you can set to control the content or format of the macro output.
+     * Parameters are options that you can set to control the content or format of
+     * the macro output.
      */
     public enum Parameters {
         /**
@@ -31,13 +34,15 @@ public class CodeBlockMacro {
          */
         COLLAPSE,
         /**
-         * When Show line numbers is selected, this value defines the number of the first line of code.
+         * When Show line numbers is selected, this value defines the number of the
+         * first line of code.
          * Default: 1
          */
         FIRSTlINE,
         /**
-         * Specifies the language (or environment) for syntax highlighting. The default language is Java but you can
-         * choose from one of the following languages/environments:
+         * Specifies the language (or environment) for syntax highlighting. The default
+         * language is Java but you can choose from:
+         * {@link com.softwareleaf.confluence.rest.macro.CodeBlockMacro.Languages}
          *
          * @see CodeBlockMacro.Languages
          */
@@ -48,10 +53,13 @@ public class CodeBlockMacro {
          */
         LINENUMBERS,
         /**
-         * Specifies the colour scheme used for displaying your code block. Many of these themes are based on the
-         * default colour schemes of popular integrated development environments (IDEs). The default theme is
-         * Confluence (also known as Default), which is typically black and coloured text on a blank background.
-         * However, you can also choose from one of the following other popular themes:
+         * Specifies the colour scheme used for displaying your code block.
+         * Many of these themes are based on the default colour schemes of popular
+         * integrated development environments (IDEs). The default theme is
+         * Confluence (also known as Default), which is typically black and coloured
+         * text on a blank background.
+         * However, you can also choose from one of the following other
+         * popular themes:
          *
          * @see CodeBlockMacro.Themes
          */
@@ -66,7 +74,7 @@ public class CodeBlockMacro {
         @Override
         public String toString() {
             // replace the underscore with a slash and print as lower case
-            return this.name().replace("_", "/").toLowerCase();
+            return name().replace("_", "/").toLowerCase();
         }
 
     }
@@ -125,30 +133,11 @@ public class CodeBlockMacro {
         ECLIPSE,
         CONFLUENCE;
 
-        /**
-         * Motivation: Necessary to keep consistent with UPPER CASE naming convention for enums,
-         * whilst outputting the expected format of the macro value.
-         *
-         * @param theme the String to convert.
-         * @return a String in Upper Camel Case format.
-         */
-        private String convertToUpperCamel(String theme) {
-            StringBuilder sb = new StringBuilder();
-            for (String s : theme.split("_")) {
-                sb.append(Character.toUpperCase(s.charAt(0)));
-                if (s.length() > 1) {
-                    sb.append(s.substring(1, s.length()).toLowerCase());
-                }
-            }
-            return sb.toString();
-        }
-
         @Override
         public String toString() {
-            return convertToUpperCamel(super.toString());
+            return StringUtils.convertToUpperCamel(super.toString());
         }
     }
-
 
     /**
      * Constructor.
@@ -164,7 +153,8 @@ public class CodeBlockMacro {
     /**
      * Converts this CodeBlockMacro into confluence markup form.
      *
-     * @see <a href="https://confluence.atlassian.com/display/DOC/Code+Block+Macro">Confluence Page describing the Macro</a>
+     * @see <a href="https://confluence.atlassian.com/display/DOC/Code+Block+Macro">
+     * Confluence Page describing the Macro</a>
      */
     public String toMarkup() {
         StringBuilder sb = new StringBuilder();

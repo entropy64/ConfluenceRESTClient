@@ -1,10 +1,11 @@
-package com.softwareleaf.confluence;
+package com.softwareleaf.confluence.rest;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.GsonBuilder;
-import com.softwareleaf.confluence.model.*;
+import com.softwareleaf.confluence.rest.model.*;
 import retrofit.Callback;
 import retrofit.RestAdapter;
+import retrofit.client.Client;
 import retrofit.converter.GsonConverter;
 
 import java.util.Arrays;
@@ -15,19 +16,17 @@ import java.util.stream.Collectors;
 
 /**
  * A class that is capable of making requests to the confluence API.
- * <p/>
+ * <p>
  * Example Usage:
  * <pre>{@code
  *     String myURL = "http://confluence.organisation.org";
  *     String username = "...";
  *     String password = "...";
- *
  *     ConfluenceClient client = ConfluenceClient.builder()
  *          .baseURL(myURL)
  *          .username(username)
  *          .password(password)
  *          .build();
- *
  *     // search confluence instance by title and space key
  *     ContentResultList search =
  *     confluenceClient.getContentBySpaceKeyAndTitle("DEV", "A page or blog in DEV");
@@ -104,7 +103,7 @@ public class ConfluenceClient {
      * Confluence Storage Format</a>
      */
     public Storage convertContent(final Storage storage, final Storage.Representation convertTo) {
-        return confluenceAPI.postContentConverstion(storage, convertTo.toString());
+        return confluenceAPI.postContentConversion(storage, convertTo.toString());
     }
 
     /**
@@ -132,14 +131,20 @@ public class ConfluenceClient {
 
     /**
      * DELETE Content
-     * <p/>
-     * Trashes or purges a piece of Content, based on its {@literal ContentType} and {@literal ContentStatus}.
-     * <p/>
+     * <p>
+     * Trashes or purges a piece of Content, based on its {@literal ContentType} and
+     * {@literal ContentStatus}.
+     * <p>
      * There are three cases:
-     * If the content is trashable and its status is {@literal ContentStatus#CURRENT}, it will be trashed.
-     * If the content is trashable, its status is {@literal ContentStatus#TRASHED} and the "status" query parameter in
-     * the request is "trashed", the content will be purged from the trash and deleted permanently.
-     * If the content is not trashable it will be deleted permanently without being trashed.
+     * <ul>
+     * <li>If the content is trashable and its status is {@literal ContentStatus#CURRENT},
+     * it will be trashed.</li>
+     * <li>If the content is trashable, its status is {@literal ContentStatus#TRASHED} and
+     * the "status" query parameter in the request is "trashed", the content will be purged
+     * from the trash and deleted permanently.</li>
+     * <li>If the content is not trashable it will be deleted permanently without being
+     * trashed.</li>
+     * </ul>
      *
      * @param id the id of the page of blog post to be deleted.
      */
@@ -174,15 +179,59 @@ public class ConfluenceClient {
     }
 
     /**
+     * Creates a new Confluence {@code Space} using {@code key} and
+     * {@code name} of the given {@param space}.
+     *
+     * @param space the {@code Space} to create.
+     * @return the {@code Space} as a confirmation returned by Confluence
+     * REST API.
+     */
+    public Space createSpace(final Space space) {
+        return confluenceAPI.createSpace(space);
+    }
+
+    /**
+     * Creates a new private Space, viewable only by the Confluence User
+     * account used by this {@code ConfluenceClient}.
+     *
+     * @param space the {@code Space} to create.
+     * @return the {@code Space} as a confirmation returned by Confluence
+     * REST API.
+     */
+    public Space createPrivateSpace(final Space space) {
+        return confluenceAPI.createPrivateSpace(space);
+    }
+
+    /**
      * Obtain a list of root content of a space.
      *
      * @param spaceKey    the space key of the Space.
      * @param contentType the type of content to return.
      * @return a list of Content instances obtained from the root.
      */
-    public List<Content> getRootContentBySpaceKey(final String spaceKey, final Type contentType) {
+    public List<Content> getRootContentBySpaceKey(final String spaceKey,
+                                                  final Type contentType) {
         Content[] resultList = confluenceAPI
                 .getRootContentBySpaceKey(spaceKey, contentType.toString())
+                .getContents();
+        return Arrays.stream(resultList).collect(Collectors.toList());
+    }
+
+    /**
+     * Fetch the children for a given {@code Content} identified
+     * by the {@param parentId}.
+     *
+     * @param parentId    the {@code id} of the parent {@code Content}.
+     * @param contentType the {@code Type} of {@code Content}.
+     * @return a list of all child content, matching the {@code content}
+     * with the given {@param parentId}.
+     */
+    public List<Content> getChildren(final String parentId, final Type contentType) {
+        Content[] resultList = confluenceAPI
+                .getChildren(parentId, contentType.toString(), ImmutableMap.of(
+                        "expand", "history,body.storage,version",
+                        "limit", "1000"
+                ))
                 .getContents();
         return Arrays.stream(resultList).collect(Collectors.toList());
     }
@@ -217,6 +266,12 @@ public class ConfluenceClient {
          * this is set, requests will be made to this base URL instead.
          */
         private String alternativeBaseURL;
+
+        /**
+         * By default the standard Retrofit {@code Client} will be used. However, if this is
+         * {@link #supplyClient(Client) set} then the provided {@code Client} will be used.
+         */
+        private Client client;
 
         // prevent direct instantiation by external classes.
         private Builder() {
@@ -257,11 +312,49 @@ public class ConfluenceClient {
         }
 
         /**
+         * This provides a way for users to supply their own implementation of the underlying
+         * {@link Client}. For example, to use {@link com.squareup.okhttp.OkHttpClient OkHttpClient}
+         * within a proxy environment:
+         * <p>
+         * <pre>{@code
+         *  // example proxy setup
+         *  final Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("10.0.0.1", 8080));
+         *  // setup your client to use the proxy
+         *  final OkHttpClient httpClient = new OkHttpClient();
+         *  httpClient.setProxy(proxy);
+         *  // finally build the ConfluenceClient
+         *  ConfluenceClient.builder()
+         *      // other methods omitted for brevity...
+         *      .supplyClient(new OkClient(httpClient))
+         *      .build();
+         * }</pre>
+         *
+         * @param client the {@code retrofit.client.Client} to use.
+         * @return {@code this}.
+         */
+        public Builder supplyClient(final Client client) {
+            this.client = client;
+            return this;
+        }
+
+        /**
          * Build and return a configured ConfluenceClient instance.
          *
          * @return a configured {@code ConfluenceClient} instance.
          */
         public ConfluenceClient build() {
+            // configure the underlying rest adapter used to create our Confluence API service.
+            final RestAdapter restAdapter = configureRestAdapter();
+            // Create an implementation of the API defined by the specified ConfluenceAPI interface
+            this.confluenceAPI = restAdapter.create(ConfluenceAPI.class);
+            return new ConfluenceClient(this);
+        }
+
+        /**
+         * Configures and builds the {@code RestAdapter} used to create the
+         * {@code ConfluenceClient}.
+         */
+        private RestAdapter configureRestAdapter() {
             // determine if we are using the production confluence or not.
             final String URL = alternativeBaseURL == null ? BASE_URL : alternativeBaseURL;
             // determine the user credentials to use.
@@ -277,21 +370,30 @@ public class ConfluenceClient {
             // encode in base64.
             final String encodedCredentials = "Basic " + Base64.getEncoder().encodeToString(credentials.getBytes());
 
-            RestAdapter restAdapter = new RestAdapter.Builder()
+            // build the default RestAdapter
+            final RestAdapter.Builder restAdapterBuilder = new RestAdapter.Builder()
                     .setEndpoint(URL)
-                    .setConverter(new GsonConverter(new GsonBuilder().disableHtmlEscaping().create()))
+                    .setConverter(
+                            new GsonConverter(
+                                    new GsonBuilder()
+                                            // handles confluence Date format
+                                            .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+                                                    // ensures body.storage HTML is not escaped
+                                            .disableHtmlEscaping()
+                                            .create()))
                     .setRequestInterceptor(
                             request -> {
                                 request.addHeader("Accept", "application/json");
                                 request.addHeader("Authorization", encodedCredentials);
                             }
-                    )
-                    .build();
+                    );
 
-            // Create an implementation of the API defined by the specified ConfluenceAPI interface
-            this.confluenceAPI = restAdapter.create(ConfluenceAPI.class);
+            // handle choice of client
+            if (client != null) {
+                restAdapterBuilder.setClient(client);
+            }
 
-            return new ConfluenceClient(this);
+            return restAdapterBuilder.build();
         }
 
     }

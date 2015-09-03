@@ -1,4 +1,4 @@
-package com.softwareleaf.confluence.model;
+package com.softwareleaf.confluence.rest.model;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -1,7 +1,8 @@
-package com.softwareleaf.confluence.macro;
+package com.softwareleaf.confluence.rest.macro;
 
-import com.softwareleaf.confluence.ConfluenceClient;
-import com.softwareleaf.confluence.model.Storage;
+import com.softwareleaf.confluence.rest.ConfluenceClient;
+import com.softwareleaf.confluence.rest.model.Storage;
+import com.softwareleaf.confluence.rest.util.StringUtils;
 
 import java.net.URL;
 import java.util.Arrays;
@@ -99,31 +100,9 @@ public class JiraIssuesMacro {
          */
         WIDTH;
 
-        /**
-         * Motivation: Necessary to keep consistent with UPPER CASE naming convention for enums,
-         * whilst outputting the expected format of the macro value.
-         *
-         * @param string the String to convert.
-         * @return a String in Camel Case format.
-         */
-        private String convertToCamelCase(final String string) {
-            final StringBuilder sb = new StringBuilder();
-            final String[] parts = string.split("_");
-            sb.append(parts[0].toLowerCase());
-            for (int i = 1; i <= parts.length - 1; i++) {
-                sb.append(toProperCase(parts[i]));
-            }
-            return sb.toString();
-        }
-
-        private String toProperCase(final String s) {
-            return s.substring(0, 1).toUpperCase() +
-                    s.substring(1).toLowerCase();
-        }
-
         @Override
         public String toString() {
-            return convertToCamelCase(name());
+            return StringUtils.convertToUpperCamel(name());
         }
 
     }
@@ -216,8 +195,8 @@ public class JiraIssuesMacro {
      * @return a String containing the wiki markup of this macro, to storage representation.
      * @throws NullPointerException if {@param client} is null.
      */
-    public String toStorageRepresentation(ConfluenceClient client) {
-        client = Objects.requireNonNull(client);
+    public String toStorageRepresentation(final ConfluenceClient client) {
+        Objects.requireNonNull(client);
         Storage wikiStorage = new Storage(toWikiMarkup(), Storage.Representation.WIKI.toString());
         return client.convertContent(wikiStorage, Storage.Representation.STORAGE).getValue();
     }
@@ -235,7 +214,7 @@ public class JiraIssuesMacro {
      * A class for implementing the Builder Pattern for {@code CodeBlockMacro}.
      */
     public static class Builder {
-        private EnumMap<Parameters, String> parameters;
+        private final EnumMap<Parameters, String> parameters;
 
         // constructor
         private Builder() {

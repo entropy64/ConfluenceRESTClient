@@ -1,11 +1,13 @@
-package com.softwareleaf.confluence.macro;
+package com.softwareleaf.confluence.rest.macro;
+
+import com.softwareleaf.confluence.rest.util.StringUtils;
 
 import java.util.EnumMap;
 import java.util.Map;
 
 /**
  * Represents a confluence Table of Contents Macro.
- * <p/>
+ * <p>
  * Usage
  * <pre>{@literal
  * String macro = TableOfContentsMacro.builder()
@@ -77,31 +79,9 @@ public class TableOfContentsMacro {
          */
         PRINTABLE;
 
-        /**
-         * Motivation: Necessary to keep consistent with UPPER CASE naming convention for enums,
-         * whilst outputting the expected format of the macro value.
-         *
-         * @param string the String to convert.
-         * @return a String in Camel Case format.
-         */
-        private String convertToCamelCase(final String string) {
-            final StringBuilder sb = new StringBuilder();
-            final String[] parts = string.split("_");
-            sb.append(parts[0].toLowerCase());
-            for (int i = 1; i <= parts.length - 1; i++) {
-                sb.append(toProperCase(parts[i]));
-            }
-            return sb.toString();
-        }
-
-        private String toProperCase(final String s) {
-            return s.substring(0, 1).toUpperCase() +
-                    s.substring(1).toLowerCase();
-        }
-
         @Override
         public String toString() {
-            return convertToCamelCase(this.name());
+            return StringUtils.convertToUpperCamel(this.name());
         }
     }
 
@@ -113,7 +93,7 @@ public class TableOfContentsMacro {
          * Causes the output style of the table of contents
          * to be laid out in a flat series of links separated
          * by square brackets.
-         * <p/>
+         * <p>
          * For Example:
          * <pre>{@literal
          *      [ 1 Summary ] [ 2 Cacheable HTTPS response ] [ 2.1 Issue Background ] ...
@@ -123,7 +103,7 @@ public class TableOfContentsMacro {
         /**
          * Causes the output style of the table of contents to be laid out
          * as an indented list.
-         * <p/>
+         * <p>
          * For example:
          * <pre>{@literal
          *  1 Summary
@@ -147,36 +127,36 @@ public class TableOfContentsMacro {
      */
     public enum ListStyle {
         /**
-         * none � no list style is displayed
+         * none, no list style is displayed
          */
         NONE,
         /**
-         * circle �  the list style is a circle
+         * circle, the list style is a circle
          */
         CIRCLE,
         /**
-         * disc � the list style is a filled circle. This is the typical
+         * disc, the list style is a filled circle. This is the typical
          * bullet list, and is used for this example list.
          */
         DISC,
         /**
-         * square � the list style is a square
+         * square, the list style is a square
          */
         SQUARE,
         /**
-         * decimal � the list is numbered (1, 2, 3, 4, 5)
+         * decimal, the list is numbered (1, 2, 3, 4, 5)
          */
         DECIMAL,
         /**
-         * lower-alpha � the list is lower-case, alphabetised (a, b, c, d, e)
+         * lower-alpha, the list is lower-case, alphabetised (a, b, c, d, e)
          */
         LOWER_ALPHA,
         /**
-         * lower-roman � the list style is lower roman numerals (i, ii, iii, iv, v, vi)
+         * lower-roman, the list style is lower roman numerals (i, ii, iii, iv, v, vi)
          */
         LOWER_ROMAN,
         /**
-         * upper-roman � the list style is upper roman numerals (I, II, III, IV, V, VI)
+         * upper-roman, the list style is upper roman numerals (I, II, III, IV, V, VI)
          */
         UPPER_ROMAN;
 
@@ -439,4 +419,5 @@ public class TableOfContentsMacro {
         }
 
     }
+
 }

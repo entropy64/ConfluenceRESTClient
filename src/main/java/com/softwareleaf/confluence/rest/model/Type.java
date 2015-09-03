@@ -1,4 +1,4 @@
-package com.softwareleaf.confluence.model;
+package com.softwareleaf.confluence.rest.model;
 
 /**
  * Represents the type of a piece of content.
@@ -17,7 +17,9 @@ package com.softwareleaf.confluence.model;
  * @author Jonathon Hope
  */
 public enum Type {
+    ATTACHMENT,
     BLOGPOST,
+    COMMENT,
     PAGE;
 
     /**

@@ -1,4 +1,4 @@
-package com.softwareleaf.confluence.macro;
+package com.softwareleaf.confluence.rest.macro;
 
 /**
  * The HTML macro allows you to add HTML code to a Confluence page.

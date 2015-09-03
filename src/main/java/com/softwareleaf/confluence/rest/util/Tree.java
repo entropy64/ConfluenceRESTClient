@@ -1,4 +1,4 @@
-package com.softwareleaf.confluence.util;
+package com.softwareleaf.confluence.rest.util;
 
 import java.util.*;
 

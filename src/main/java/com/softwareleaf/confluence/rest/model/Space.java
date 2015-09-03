@@ -1,4 +1,4 @@
-package com.softwareleaf.confluence.model;
+package com.softwareleaf.confluence.rest.model;
 
 import com.google.gson.GsonBuilder;
 
@@ -19,7 +19,10 @@ import com.google.gson.GsonBuilder;
  */
 public class Space {
     /**
-     * The space key. For example: {@literal "DEV"}.
+     * The space key. For example: {@literal "DEV"}. Space keys
+     * may only consist of ASCII letters or numbers {@literal (A-Z, a-z, 0-9)}
+     * and no empty spaces, special characters or underscore are allowed
+     * in the key
      */
     private String key;
     /**
@@ -35,6 +38,11 @@ public class Space {
 
     /**
      * Constructor.
+     *
+     * @param key the {@code key} of the space. Space keys
+     *            may only consist of ASCII letters or numbers {@literal (A-Z, a-z, 0-9)}
+     *            and no empty spaces, special characters or underscore are allowed
+     *            in the key
      */
     public Space(String key) {
         this.key = key;

@@ -1,4 +1,4 @@
-package com.softwareleaf.confluence.util;
+package com.softwareleaf.confluence.rest.util;
 
 /**
  * An immutable tuple structure, that can hold two

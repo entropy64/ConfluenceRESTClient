@@ -1,6 +1,6 @@
-package com.softwareleaf.confluence;
+package com.softwareleaf.confluence.rest;
 
-import com.softwareleaf.confluence.model.*;
+import com.softwareleaf.confluence.rest.model.*;
 import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.*;
@@ -36,6 +36,19 @@ public interface ConfluenceAPI {
                                                    final @Query("title") String title);
 
     /**
+     * Fetch the children for a given {@code Content} identified by the {@param parentId}.
+     *
+     * @param parentId the {@code id} of the parent {@code Content}.
+     * @param type     the {@code Type} of the {@code Content}.
+     * @param params   the query parameters mapping.
+     * @return a list of all child content, matching {@param params} and {@param parentId}.
+     */
+    @GET("/rest/api/content/{id}/child/{type}")
+    ContentResultList getChildren(final @Path("id") String parentId,
+                                  final @Path("type") String type,
+                                  final @QueryMap Map<String, String> params);
+
+    /**
      * GET Content
      *
      * @param id the id of the page or blog post to fetch.
@@ -53,8 +66,8 @@ public interface ConfluenceAPI {
      * the conversion request.
      */
     @POST("/rest/api/contentbody/convert/{to}")
-    Storage postContentConverstion(final @Body Storage storage,
-                                   final @Path("to") String convertToFormat);
+    Storage postContentConversion(final @Body Storage storage,
+                                  final @Path("to") String convertToFormat);
 
     /**
      * POST Content.
@@ -78,9 +91,9 @@ public interface ConfluenceAPI {
 
     /**
      * DELETE Content
-     * <p/>
+     * <p>
      * Trashes or purges a piece of Content, based on its {@literal ContentType} and {@literal ContentStatus}.
-     * <p/>
+     * <p>
      * There are three cases:
      * If the content is trashable and its status is {@literal ContentStatus#CURRENT}, it will be trashed.
      * If the content is trashable, its status is {@literal ContentStatus#TRASHED} and the "status" query parameter in
@@ -100,6 +113,28 @@ public interface ConfluenceAPI {
      */
     @GET("/rest/api/space")
     SpaceResultList getSpaces();
+
+    /**
+     * Creates a new Confluence {@code Space} using {@code key} and
+     * {@code name} of the given {@param space}.
+     *
+     * @param space the {@code Space} to create.
+     * @return the {@code Space} as a confirmation returned by Confluence
+     * REST API.
+     */
+    @POST("/rest/api/space")
+    Space createSpace(final @Body Space space);
+
+    /**
+     * Creates a new private Space, viewable only by the Confluence User
+     * account used by this {@code ConfluenceClient}.
+     *
+     * @param space the {@code Space} to create.
+     * @return the {@code Space} as a confirmation returned by Confluence
+     * REST API.
+     */
+    @POST("/rest/api/space/_private")
+    Space createPrivateSpace(final @Body Space space);
 
     /**
      * Fetch all content from a confluence space.

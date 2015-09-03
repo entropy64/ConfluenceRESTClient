@@ -1,4 +1,4 @@
-package com.softwareleaf.confluence.model;
+package com.softwareleaf.confluence.rest.model;
 
 import com.google.gson.GsonBuilder;
 
@@ -41,7 +41,6 @@ public class Content {
      * The ancestors of this blog post or page.
      */
     private Parent[] ancestors;
-
     /**
      * The space object holds the space key, that is used to identify the location of
      * the piece of content.
@@ -55,11 +54,18 @@ public class Content {
      * The body object holds the stored data of the page or blog post.
      */
     private Body body;
+    /**
+     * Versioning information.
+     */
+    private Version version;
+    /**
+     * History information.
+     */
+    private History history;
 
     /**
      * Default Constructor.
      */
-
     public Content() {
     }
 
@@ -134,6 +140,26 @@ public class Content {
         this.id = id;
     }
 
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Version getVersion() {
+        return version;
+    }
+
+    public void setVersion(Version version) {
+        this.version = version;
+    }
+
+    public History getHistory() {
+        return history;
+    }
+
+    public void setHistory(History history) {
+        this.history = history;
+    }
+
     @Override
     public String toString() {
         return new GsonBuilder().disableHtmlEscaping().create().toJson(this);
@@ -155,12 +181,14 @@ public class Content {
                 Objects.equals(ancestors, content.ancestors) &&
                 Objects.equals(space, content.space) &&
                 Objects.equals(title, content.title) &&
-                Objects.equals(body, content.body);
+                Objects.equals(body, content.body) &&
+                Objects.equals(version, content.version) &&
+                Objects.equals(history, content.history);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, type, ancestors, space, title, body);
+        return Objects.hash(id, type, ancestors, space, title, body, version, history);
     }
 }
 
