@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 
 /**
  * A class that is capable of making requests to the confluence API.
- * <p>
  * Example Usage:
  * <pre>{@code
  *     String myURL = "http://confluence.organisation.org";
@@ -88,7 +87,8 @@ public class ConfluenceClient {
      * @return an instance of {@code getContentResults} wrapping the list
      * of {@code Content} instances obtained from the API call.
      */
-    public ContentResultList getContentBySpaceKeyAndTitle(final String key, final String title) {
+    public ContentResultList getContentBySpaceKeyAndTitle(final String key,
+                                                          final String title) {
         return confluenceAPI.getContentBySpaceKeyAndTitle(key, title);
     }
 
@@ -102,13 +102,14 @@ public class ConfluenceClient {
      * @see <a href="https://confluence.atlassian.com/display/DOC/Confluence+Storage+Format">
      * Confluence Storage Format</a>
      */
-    public Storage convertContent(final Storage storage, final Storage.Representation convertTo) {
+    public Storage convertContent(final Storage storage,
+                                  final Storage.Representation convertTo) {
         return confluenceAPI.postContentConversion(storage, convertTo.toString());
     }
 
     /**
      * Performs a POST request with the body of the request containing the
-     * {@param content}, thus creating a new page or blog post on confluence.
+     * {@code content}, thus creating a new page or blog post on confluence.
      *
      * @param content  the content to post to confluence.
      * @param callback this handle provides a means of inquiring about
@@ -120,9 +121,10 @@ public class ConfluenceClient {
 
     /**
      * Performs a POST request with the body of the request containing the
-     * {@param content}, thus creating a new page or blog post on confluence.
+     * {@code content}, thus creating a new page or blog post on confluence.
      *
      * @param content the content to post to confluence.
+     * @return the result {@code Content} instance with the {@code id} field updated.
      */
     public Content postContent(final Content content) {
         System.out.println(content.toString());
@@ -131,20 +133,8 @@ public class ConfluenceClient {
 
     /**
      * DELETE Content
-     * <p>
-     * Trashes or purges a piece of Content, based on its {@literal ContentType} and
+     * <p>Trashes or purges a piece of Content, based on its {@literal ContentType} and
      * {@literal ContentStatus}.
-     * <p>
-     * There are three cases:
-     * <ul>
-     * <li>If the content is trashable and its status is {@literal ContentStatus#CURRENT},
-     * it will be trashed.</li>
-     * <li>If the content is trashable, its status is {@literal ContentStatus#TRASHED} and
-     * the "status" query parameter in the request is "trashed", the content will be purged
-     * from the trash and deleted permanently.</li>
-     * <li>If the content is not trashable it will be deleted permanently without being
-     * trashed.</li>
-     * </ul>
      *
      * @param id the id of the page of blog post to be deleted.
      */
@@ -167,7 +157,7 @@ public class ConfluenceClient {
      * Fetch all content from a confluence space.
      *
      * @param spaceKey the key that identifies the target Space.
-     * @return a list of all content in the given Space identified by {@param spaceKey}.
+     * @return a list of all content in the given Space identified by {@code spaceKey}.
      */
     public List<Content> getAllSpaceContent(final String spaceKey) {
         Content[] results = confluenceAPI.getAllSpaceContent(spaceKey,
@@ -180,7 +170,7 @@ public class ConfluenceClient {
 
     /**
      * Creates a new Confluence {@code Space} using {@code key} and
-     * {@code name} of the given {@param space}.
+     * {@code name} of the given {@code space}.
      *
      * @param space the {@code Space} to create.
      * @return the {@code Space} as a confirmation returned by Confluence
@@ -219,12 +209,12 @@ public class ConfluenceClient {
 
     /**
      * Fetch the children for a given {@code Content} identified
-     * by the {@param parentId}.
+     * by the {@code parentId}.
      *
      * @param parentId    the {@code id} of the parent {@code Content}.
      * @param contentType the {@code Type} of {@code Content}.
      * @return a list of all child content, matching the {@code content}
-     * with the given {@param parentId}.
+     * with the given {@code parentId}.
      */
     public List<Content> getChildren(final String parentId, final Type contentType) {
         Content[] resultList = confluenceAPI
@@ -315,7 +305,6 @@ public class ConfluenceClient {
          * This provides a way for users to supply their own implementation of the underlying
          * {@link Client}. For example, to use {@link com.squareup.okhttp.OkHttpClient OkHttpClient}
          * within a proxy environment:
-         * <p>
          * <pre>{@code
          *  // example proxy setup
          *  final Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("10.0.0.1", 8080));

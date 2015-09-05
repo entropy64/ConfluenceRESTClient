@@ -16,7 +16,7 @@ import java.util.Arrays;
 public final class StringUtils {
 
     /**
-     * Converts the {@code String} {@param str}, to {@code "camelCase"} format.
+     * Converts the {@code String str}, to {@code "camelCase"} format.
      *
      * @param str the {@code String} to format.
      * @return the formatted {@code String}.
@@ -39,7 +39,6 @@ public final class StringUtils {
 
     /**
      * Converts {@literal "UpperCamelCase"}.
-     * <p>
      * <pre>{@literal
      *     "RENDER_MODE" => "RenderMode"
      * }</pre>
@@ -64,7 +63,7 @@ public final class StringUtils {
      * Convert to {@literal "Proper case"}; capital first letter, lowercase suffix.
      *
      * @param s the {@code String} to convert to {@literal "ProperCase"}.
-     * @return the {@code String} {@param s} converted to {@literal "ProperCase"}.
+     * @return the {@code String s} converted to {@literal "ProperCase"}.
      */
     public static String toProperCase(final String s) {
         return s.substring(0, 1).toUpperCase() +

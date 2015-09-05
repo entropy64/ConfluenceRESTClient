@@ -8,12 +8,11 @@ package com.softwareleaf.confluence.rest;
 public interface QueryParams {
 
     /**
-     * These are the acceptable expandable
-     * queries. The format for these is:
+     * These are the acceptable expandable queries.
+     * <p>The format for these is:
      * <pre>{@literal
      *      REQUEST_URL ?expand.{expandable}
      * }</pre>
-     *
      * Default value: history,space,version.
      */
     enum Expandables {
@@ -53,9 +52,8 @@ public interface QueryParams {
 
     /**
      * This will expand the body.storage object of a request for particular content.
-     * <p>
-     * For example:
-     * <p><pre>{@literal
+     * <p>For example:
+     * <pre>{@literal
      *     GET /rest/api/content/757575775?expand=body.storage
      * }
      * </pre>

@@ -28,11 +28,6 @@ public class ContentResultList {
      */
     private int size;
 
-    /**
-     * Constructor.
-     *
-     * @param contents the array of Content instances.
-     */
     public ContentResultList() {
     }
 

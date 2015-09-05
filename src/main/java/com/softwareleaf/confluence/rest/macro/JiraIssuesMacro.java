@@ -41,9 +41,8 @@ public class JiraIssuesMacro {
         /**
          * A list of JIRA column names, separated by semi-colons (;). You can include any columns
          * recognised by your JIRA site, including custom columns.
-         *
-         * @see <a href="https://confluence.atlassian.com/display/JIRA/Displaying+Search+Results+in+XML">
-         * JIRA documentation</a> for a list of names.
+         * <p><a href="https://confluence.atlassian.com/display/JIRA/Displaying+Search+Results+in+XML">
+         * JIRA documentation</a> for a list of names
          */
         COLUMNS,
         /**
@@ -193,7 +192,7 @@ public class JiraIssuesMacro {
      *
      * @param client the {@code ConfluenceClient} to use to convert to storage form.
      * @return a String containing the wiki markup of this macro, to storage representation.
-     * @throws NullPointerException if {@param client} is null.
+     * @throws NullPointerException if {@code client} is null.
      */
     public String toStorageRepresentation(final ConfluenceClient client) {
         Objects.requireNonNull(client);
@@ -233,6 +232,8 @@ public class JiraIssuesMacro {
         }
 
         /**
+         * Set the columns properties.
+         *
          * @param columns the array of columns to include in the macro.
          * @return {@code this}.
          * @see JiraIssuesMacro.Columns

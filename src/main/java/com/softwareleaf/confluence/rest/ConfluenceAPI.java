@@ -36,12 +36,12 @@ public interface ConfluenceAPI {
                                                    final @Query("title") String title);
 
     /**
-     * Fetch the children for a given {@code Content} identified by the {@param parentId}.
+     * Fetch the children for a given {@code Content} identified by the {@code parentId}.
      *
      * @param parentId the {@code id} of the parent {@code Content}.
      * @param type     the {@code Type} of the {@code Content}.
      * @param params   the query parameters mapping.
-     * @return a list of all child content, matching {@param params} and {@param parentId}.
+     * @return a list of all child content, matching {@code params} and {@code parentId}.
      */
     @GET("/rest/api/content/{id}/child/{type}")
     ContentResultList getChildren(final @Path("id") String parentId,
@@ -72,7 +72,8 @@ public interface ConfluenceAPI {
     /**
      * POST Content.
      *
-     * @param content the piece of Content to be included in the body of the request.
+     * @param content the piece of {@code Content} to be included in the body of the request.
+     * @return The {@code Content} reference updated (with id) by confluence.
      */
     @POST("/rest/api/content")
     Content postContent(final @Body Content content);
@@ -91,16 +92,17 @@ public interface ConfluenceAPI {
 
     /**
      * DELETE Content
-     * <p>
-     * Trashes or purges a piece of Content, based on its {@literal ContentType} and {@literal ContentStatus}.
-     * <p>
-     * There are three cases:
-     * If the content is trashable and its status is {@literal ContentStatus#CURRENT}, it will be trashed.
-     * If the content is trashable, its status is {@literal ContentStatus#TRASHED} and the "status" query parameter in
-     * the request is "trashed", the content will be purged from the trash and deleted permanently.
-     * If the content is not trashable it will be deleted permanently without being trashed.
+     * <p>Trashes or purges a piece of Content, based on its {@literal ContentType} and
+     * {@literal ContentStatus}. There are three cases:
+     * <ul>
+     * <li>If the content is trashable and its status is {@literal ContentStatus#CURRENT}, it will be trashed.</li>
+     * <li>If the content is trashable, its status is {@literal ContentStatus#TRASHED} and the "status" query parameter in
+     * the request is "trashed", the content will be purged from the trash and deleted permanently.</li>
+     * <li>If the content is not trashable it will be deleted permanently without being trashed.</li>
+     * </ul>
      *
      * @param id the id of the page of blog post to be deleted.
+     * @return a reference to the message holder, indicating the status of the request.
      */
     @DELETE("/rest/api/content/{id}")
     NoContent deleteContentById(final @Path("id") String id);
@@ -116,7 +118,7 @@ public interface ConfluenceAPI {
 
     /**
      * Creates a new Confluence {@code Space} using {@code key} and
-     * {@code name} of the given {@param space}.
+     * {@code name} of the given {@code space}.
      *
      * @param space the {@code Space} to create.
      * @return the {@code Space} as a confirmation returned by Confluence
@@ -141,7 +143,7 @@ public interface ConfluenceAPI {
      *
      * @param spaceKey the key that identifies the target Space.
      * @param params   the query parameters.
-     * @return a list of all content in the given Space identified by {@param spaceKey}.
+     * @return a list of all content in the given Space identified by {@code spaceKey}.
      */
     @GET("/rest/api/space/{spaceKey}/content/page")
     ContentResultList getAllSpaceContent(final @Path("spaceKey") String spaceKey,
