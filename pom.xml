@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.softwareleaf.confluence</groupId>
     <artifactId>confluence-api-client</artifactId>
-    <version>0.5.2-SNAPSHOT</version>
+    <version>0.5.2</version>
 
     <description>
         A Java client for interacting with the Atlassian Confluence REST API.
@@ -29,7 +28,8 @@
         <url>https://github.com/entropy64/ConfluenceRESTClient</url>
         <connection>scm:git:git://github.com/entropy64/ConfluenceRESTClient.git</connection>
         <developerConnection>scm:git:git@github.com:entropy64/ConfluenceRESTClient.git</developerConnection>
-    </scm>
+      <tag>confluence-api-client-0.5.2</tag>
+  </scm>
 
     <distributionManagement>
         <snapshotRepository>
